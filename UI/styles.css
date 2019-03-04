@@ -1,0 +1,143 @@
+* {
+    position: relative;
+}
+
+body {
+    margin: 0px;
+}
+
+header {
+    height: 10%;
+}
+
+button {
+    
+    background: #FFFFFF;
+    outline: none;
+    border-width: 1px;
+    border-color: #CECECE;
+}
+
+footer {
+    height: 10%;
+}
+
+#photofeed {
+    scroll-behavior: auto;
+    align-items: normal;
+    left: 16.666666666666666666666666666666666666666666666666% !important;
+    width: 66.666666666666666666666666666666666666666666666666%;
+}
+
+.photopost {
+    
+    height: 72%;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.user-handle {
+    
+    height: 40px;
+    width: 100%;
+}
+
+.user-button {
+    
+    height: 40px;
+    width: inherit;
+    vertical-align: middle;
+}
+
+.user-button .user-avatar {
+    
+    left: 0px !important;
+    width: 30px;
+    height: 30px;
+    margin: 4px;
+    float: left;
+}
+
+.user-button .username {
+    float: left;
+    font-size: 16px;
+    margin: 9px;
+}
+
+.photo-container {
+    left: inherit;
+    width: 100%;
+    height: 70%;
+}
+
+.post-photo {
+    max-width: 100%;
+    height: auto;
+    align-self: center;
+}
+
+.post-info {
+    
+    width: 100%;
+    height: 120px;
+}
+
+.post-footer {
+    width: 100%;
+    height: 40px;
+}
+
+.post-footer-buttons {
+    width: 100%;
+    height: 40px;
+}
+
+.like-button {
+    top: -2px;
+    height: 40px;
+    width: 40px;
+}
+
+.like-button-img {
+    max-width: 100%;
+    height: auto;
+}
+
+.comment-button {
+    height: 40px;
+    width: calc(100% - 92px) !important;
+    margin-left: 2px;
+    margin-right: 2px;
+    text-align: center;
+    vertical-align: top;
+}
+
+.comment-button p {
+    font-size: 18px;
+    margin: 6px;
+}
+
+.more-button {
+    width: 40px;
+    height: 40px;
+}
+
+#load-button {
+    height: 40px;
+    width: 40px;
+    left: calc(50% - 20px);
+    align-items: normal;
+    margin-bottom: 10px;
+}
+
+#load-button-img {
+    left: -9px;
+    bottom: 1px;
+    margin: 2px;
+}
+
+.footer-container {
+    background: #777777;
+    width: 100%;
+    height: 80px;
+}
