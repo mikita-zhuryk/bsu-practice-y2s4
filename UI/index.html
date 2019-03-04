@@ -27,7 +27,10 @@
             <div class="feed" id="photofeed">
 
                 <div id="feed-head">
-                    <input type="text" id="post-search" placeholder="Search..." onchange="filterPosts(this.text)"/>
+                    <input type="text" id="post-search" placeholder="Search..." onchange="if (this.value != '') document.getElementById('clear-post-search').style.visibility = 'visible'"/>
+                    <button id="clear-post-search" onclick="document.getElementById('post-search').value = ''">
+                        <img src="img/cross.png"/>
+                    </button>
                     <button id="add-photo-button">+</button>
                 </div>
 
