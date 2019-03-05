@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Insta-Like</title>
+        <link rel="shortcut icon" type="image/x-icon" href="img/logo32.png" />
+        <meta charset="utf-8"/>
+        <link href="styles.css" type="text/css" rel="stylesheet"/>
+    </head>
+
+    <body>
+        <header>
+            <div id="header-container">
+                <button id="main-logo-button">
+                    <img id="main-logo" src="img/logo.png"/>
+                </button>
+                <h1 id="main-name"><i>Insta-Like</i></h1>
+                <button id="logged-user-avatar">
+                    <img src="%back%/%logged-username%/avatar.png"/>
+                </button>
+                <button id="main-menu">
+                    <img src="img/three-bars.png"/>
+                </button>
+            </div>
+        </header>
+        <main>
+            <div class="feed" id="photofeed">
+
+                <div id="feed-head">
+                    <input type="text" id="post-search" placeholder="Search..." onchange="if (this.value != '') document.getElementById('clear-post-search').style.visibility = 'visible'"/>
+                    <button id="clear-post-search" onclick="document.getElementById('post-search').value = ''">
+                        <img src="img/cross.png"/>
+                    </button>
+                    <button id="add-photo-button">+</button>
+                </div>
+
+                <div class="photopost">
+                    <div class="user-handle">
+                        <button class="user-button" onclick="document.getElementById('post-search').value = this.children[1].children[0].innerHTML">
+                            <img class="user-avatar" src="%back%/%username%/avatar.png"/>
+                            <h4 class="username">
+                                <i>username</i>
+                                <!--Here goes username from backend acquired by script during page load-->
+                            </h4>
+                        </button>
+                    </div>
+                    <div class="photo-container">
+                        <!--<img class="post-photo" src="%back%/%username%/#%post-number%"/>-->
+                        <img class="post-photo" src="https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13" onclick="window.open(this.src)"/>
+                    </div>
+                    <div class="post-info">
+                        <p class="post-text">
+                            Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой,
+                            и заметил фотографа, но есть его не собирается. То ли он не голоден, то ли у фотографа слишком мало мяска - непонятно. Хотя вроде бы лисы
+                            не особо любят охотиться на людей...
+                        </p>
+                        <ul class="post-hashtags">
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#лис</a>
+                            </li>
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#снег</a>
+                            </li>
+                            <!--Possibly more hashtags loaded from backend-->
+                        </ul>
+                        <p class="post-date" onclick="document.getElementById('post-search').value = this.innerHTML">Posted: 02.03.2019 14:39</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-footer-buttons">
+                            <button class="like-button">
+                                <img class="like-button-img" src="img/like-button.png" onhover="('You liked the post! Hooray!')"/>
+                            </button>
+                            <button class="comment-button">
+                                <p>Comment</p>
+                            </button>
+                            <button class="more-button">
+                                <img class="more-button-img" src="img/more-button.png"/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photopost">
+                    <div class="user-handle">
+                        <button class="user-button" onclick="document.getElementById('post-search').value = this.children[1].children[0].innerHTML">
+                            <img class="user-avatar" src="%back%/%username%/avatar.png"/>
+                            <h4 class="username">
+                                <i>username</i>
+                                <!--Here goes username from backend acquired by script during page load-->
+                            </h4>
+                        </button>
+                    </div>
+                    <div class="photo-container">
+                        <!--<img class="post-photo" src="%back%/%username%/#%post-number%"/>-->
+                        <img class="post-photo" src="https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13" onclick="window.open(this.src)"/>
+                    </div>
+                    <div class="post-info">
+                        <p class="post-text">
+                            Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой,
+                            и заметил фотографа, но есть его не собирается. То ли он не голоден, то ли у фотографа слишком мало мяска - непонятно. Хотя вроде бы лисы
+                            не особо любят охотиться на людей...
+                        </p>
+                        <ul class="post-hashtags">
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#лис</a>
+                            </li>
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#снег</a>
+                            </li>
+                            <!--Possibly more hashtags loaded from backend-->
+                        </ul>
+                        <p class="post-date" onclick="document.getElementById('post-search').value = this.innerHTML">Posted: 02.03.2019 14:39</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-footer-buttons">
+                            <button class="like-button">
+                                <img class="like-button-img" src="img/like-button.png" onhover="('You liked the post! Hooray!')"/>
+                            </button>
+                            <button class="comment-button">
+                                <p>Comment</p>
+                            </button>
+                            <button class="more-button">
+                                <img class="more-button-img" src="img/more-button.png"/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photopost">
+                    <div class="user-handle">
+                        <button class="user-button" onclick="document.getElementById('post-search').value = this.children[1].children[0].innerHTML">
+                            <img class="user-avatar" src="%back%/%username%/avatar.png"/>
+                            <h4 class="username">
+                                <i>username</i>
+                                <!--Here goes username from backend acquired by script during page load-->
+                            </h4>
+                        </button>
+                    </div>
+                    <div class="photo-container">
+                        <!--<img class="post-photo" src="%back%/%username%/#%post-number%"/>-->
+                        <img class="post-photo" src="https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13" onclick="window.open(this.src)"/>
+                    </div>
+                    <div class="post-info">
+                        <p class="post-text">
+                            Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой,
+                            и заметил фотографа, но есть его не собирается. То ли он не голоден, то ли у фотографа слишком мало мяска - непонятно. Хотя вроде бы лисы
+                            не особо любят охотиться на людей...
+                        </p>
+                        <ul class="post-hashtags">
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#лис</a>
+                            </li>
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#снег</a>
+                            </li>
+                            <!--Possibly more hashtags loaded from backend-->
+                        </ul>
+                        <p class="post-date" onclick="document.getElementById('post-search').value = this.innerHTML">Posted: 02.03.2019 14:39</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-footer-buttons">
+                            <button class="like-button">
+                                <img class="like-button-img" src="img/like-button.png" onhover="('You liked the post! Hooray!')"/>
+                            </button>
+                            <button class="comment-button">
+                                <p>Comment</p>
+                            </button>
+                            <button class="more-button">
+                                <img class="more-button-img" src="img/more-button.png"/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photopost">
+                    <div class="user-handle">
+                        <button class="user-button" onclick="document.getElementById('post-search').value = this.children[1].children[0].innerHTML">
+                            <img class="user-avatar" src="%back%/%username%/avatar.png"/>
+                            <h4 class="username">
+                                <i>username</i>
+                                <!--Here goes username from backend acquired by script during page load-->
+                            </h4>
+                        </button>
+                    </div>
+                    <div class="photo-container">
+                        <!--<img class="post-photo" src="%back%/%username%/#%post-number%"/>-->
+                        <img class="post-photo" src="https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13" onclick="window.open(this.src)"/>
+                    </div>
+                    <div class="post-info">
+                        <p class="post-text">
+                            Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой,
+                            и заметил фотографа, но есть его не собирается. То ли он не голоден, то ли у фотографа слишком мало мяска - непонятно. Хотя вроде бы лисы
+                            не особо любят охотиться на людей...
+                        </p>
+                        <ul class="post-hashtags">
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#лис</a>
+                            </li>
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#снег</a>
+                            </li>
+                            <!--Possibly more hashtags loaded from backend-->
+                        </ul>
+                        <p class="post-date" onclick="document.getElementById('post-search').value = this.innerHTML">Posted: 02.03.2019 14:39</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-footer-buttons">
+                            <button class="like-button">
+                                <img class="like-button-img" src="img/like-button.png" onhover="('You liked the post! Hooray!')"/>
+                            </button>
+                            <button class="comment-button">
+                                <p>Comment</p>
+                            </button>
+                            <button class="more-button">
+                                <img class="more-button-img" src="img/more-button.png"/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photopost">
+                    <div class="user-handle">
+                        <button class="user-button" onclick="document.getElementById('post-search').value = this.children[1].children[0].innerHTML">
+                            <img class="user-avatar" src="%back%/%username%/avatar.png"/>
+                            <h4 class="username">
+                                <i>username</i>
+                                <!--Here goes username from backend acquired by script during page load-->
+                            </h4>
+                        </button>
+                    </div>
+                    <div class="photo-container">
+                        <!--<img class="post-photo" src="%back%/%username%/#%post-number%"/>-->
+                        <img class="post-photo" src="https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13" onclick="window.open(this.src)"/>
+                    </div>
+                    <div class="post-info">
+                        <p class="post-text">
+                            Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой,
+                            и заметил фотографа, но есть его не собирается. То ли он не голоден, то ли у фотографа слишком мало мяска - непонятно. Хотя вроде бы лисы
+                            не особо любят охотиться на людей...
+                        </p>
+                        <ul class="post-hashtags">
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#лис</a>
+                            </li>
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#снег</a>
+                            </li>
+                            <!--Possibly more hashtags loaded from backend-->
+                        </ul>
+                        <p class="post-date" onclick="document.getElementById('post-search').value = this.innerHTML">Posted: 02.03.2019 14:39</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-footer-buttons">
+                            <button class="like-button">
+                                <img class="like-button-img" src="img/like-button.png" onhover="('You liked the post! Hooray!')"/>
+                            </button>
+                            <button class="comment-button">
+                                <p>Comment</p>
+                            </button>
+                            <button class="more-button">
+                                <img class="more-button-img" src="img/more-button.png"/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photopost">
+                    <div class="user-handle" onclick="document.getElementById('post-search').value = this.children[1].children[0].innerHTML">
+                        <button class="user-button">
+                            <img class="user-avatar" src="%back%/%username%/avatar.png"/>
+                            <h4 class="username">
+                                <i>username</i>
+                                <!--Here goes username from backend acquired by script during page load-->
+                            </h4>
+                        </button>
+                    </div>
+                    <div class="photo-container">
+                        <!--<img class="post-photo" src="%back%/%username%/#%post-number%"/>-->
+                        <img class="post-photo" src="https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13" onclick="window.open(this.src)"/>
+                    </div>
+                    <div class="post-info">
+                        <p class="post-text">
+                            Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой,
+                            и заметил фотографа, но есть его не собирается. То ли он не голоден, то ли у фотографа слишком мало мяска - непонятно. Хотя вроде бы лисы
+                            не особо любят охотиться на людей...
+                        </p>
+                        <ul class="post-hashtags">
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#лис</a>
+                            </li>
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#снег</a>
+                            </li>
+                            <!--Possibly more hashtags loaded from backend-->
+                        </ul>
+                        <p class="post-date" onclick="document.getElementById('post-search').value = this.innerHTML">Posted: 02.03.2019 14:39</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-footer-buttons">
+                            <button class="like-button">
+                                <img class="like-button-img" src="img/like-button.png" onhover="('You liked the post! Hooray!')"/>
+                            </button>
+                            <button class="comment-button">
+                                <p>Comment</p>
+                            </button>
+                            <button class="more-button">
+                                <img class="more-button-img" src="img/more-button.png"/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photopost">
+                    <div class="user-handle">
+                        <button class="user-button" onclick="document.getElementById('post-search').value = this.children[1].children[0].innerHTML">
+                            <img class="user-avatar" src="%back%/%username%/avatar.png"/>
+                            <h4 class="username">
+                                <i>username</i>
+                                <!--Here goes username from backend acquired by script during page load-->
+                            </h4>
+                        </button>
+                    </div>
+                    <div class="photo-container">
+                        <!--<img class="post-photo" src="%back%/%username%/#%post-number%"/>-->
+                        <img class="post-photo" src="https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13" onclick="window.open(this.src)"/>
+                    </div>
+                    <div class="post-info">
+                        <p class="post-text">
+                            Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой,
+                            и заметил фотографа, но есть его не собирается. То ли он не голоден, то ли у фотографа слишком мало мяска - непонятно. Хотя вроде бы лисы
+                            не особо любят охотиться на людей...
+                        </p>
+                        <ul class="post-hashtags">
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#лис</a>
+                            </li>
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#снег</a>
+                            </li>
+                            <!--Possibly more hashtags loaded from backend-->
+                        </ul>
+                        <p class="post-date" onclick="document.getElementById('post-search').value = this.innerHTML">Posted: 02.03.2019 14:39</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-footer-buttons">
+                            <button class="like-button">
+                                <img class="like-button-img" src="img/like-button.png" onhover="('You liked the post! Hooray!')"/>
+                            </button>
+                            <button class="comment-button">
+                                <p>Comment</p>
+                            </button>
+                            <button class="more-button">
+                                <img class="more-button-img" src="img/more-button.png"/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photopost">
+                    <div class="user-handle">
+                        <button class="user-button" onclick="document.getElementById('post-search').value = this.children[1].children[0].innerHTML">
+                            <img class="user-avatar" src="%back%/%username%/avatar.png"/>
+                            <h4 class="username">
+                                <i>username</i>
+                                <!--Here goes username from backend acquired by script during page load-->
+                            </h4>
+                        </button>
+                    </div>
+                    <div class="photo-container">
+                        <!--<img class="post-photo" src="%back%/%username%/#%post-number%"/>-->
+                        <img class="post-photo" src="https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13" onclick="window.open(this.src)"/>
+                    </div>
+                    <div class="post-info">
+                        <p class="post-text">
+                            Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой,
+                            и заметил фотографа, но есть его не собирается. То ли он не голоден, то ли у фотографа слишком мало мяска - непонятно. Хотя вроде бы лисы
+                            не особо любят охотиться на людей...
+                        </p>
+                        <ul class="post-hashtags">
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#лис</a>
+                            </li>
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#снег</a>
+                            </li>
+                            <!--Possibly more hashtags loaded from backend-->
+                        </ul>
+                        <p class="post-date" onclick="document.getElementById('post-search').value = this.innerHTML">Posted: 02.03.2019 14:39</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-footer-buttons">
+                            <button class="like-button">
+                                <img class="like-button-img" src="img/like-button.png" onhover="('You liked the post! Hooray!')"/>
+                            </button>
+                            <button class="comment-button">
+                                <p>Comment</p>
+                            </button>
+                            <button class="more-button">
+                                <img class="more-button-img" src="img/more-button.png"/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photopost">
+                    <div class="user-handle">
+                        <button class="user-button" onclick="document.getElementById('post-search').value = this.children[1].children[0].innerHTML">
+                            <img class="user-avatar" src="%back%/%username%/avatar.png"/>
+                            <h4 class="username">
+                                <i>username</i>
+                                <!--Here goes username from backend acquired by script during page load-->
+                            </h4>
+                        </button>
+                    </div>
+                    <div class="photo-container">
+                        <!--<img class="post-photo" src="%back%/%username%/#%post-number%"/>-->
+                        <img class="post-photo" src="https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13" onclick="window.open(this.src)"/>
+                    </div>
+                    <div class="post-info">
+                        <p class="post-text">
+                            Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой,
+                            и заметил фотографа, но есть его не собирается. То ли он не голоден, то ли у фотографа слишком мало мяска - непонятно. Хотя вроде бы лисы
+                            не особо любят охотиться на людей...
+                        </p>
+                        <ul class="post-hashtags">
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#лис</a>
+                            </li>
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#снег</a>
+                            </li>
+                            <!--Possibly more hashtags loaded from backend-->
+                        </ul>
+                        <p class="post-date" onclick="document.getElementById('post-search').value = this.innerHTML">Posted: 02.03.2019 14:39</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-footer-buttons">
+                            <button class="like-button">
+                                <img class="like-button-img" src="img/like-button.png" onhover="('You liked the post! Hooray!')"/>
+                            </button>
+                            <button class="comment-button">
+                                <p>Comment</p>
+                            </button>
+                            <button class="more-button">
+                                <img class="more-button-img" src="img/more-button.png"/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photopost">
+                    <div class="user-handle">
+                        <button class="user-button" onclick="document.getElementById('post-search').value = this.children[1].children[0].innerHTML">
+                            <img class="user-avatar" src="%back%/%username%/avatar.png"/>
+                            <h4 class="username">
+                                <i>username</i>
+                                <!--Here goes username from backend acquired by script during page load-->
+                            </h4>
+                        </button>
+                    </div>
+                    <div class="photo-container">
+                        <!--<img class="post-photo" src="%back%/%username%/#%post-number%"/>-->
+                        <img class="post-photo" src="https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13" onclick="window.open(this.src)"/>
+                    </div>
+                    <div class="post-info">
+                        <p class="post-text">
+                            Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой,
+                            и заметил фотографа, но есть его не собирается. То ли он не голоден, то ли у фотографа слишком мало мяска - непонятно. Хотя вроде бы лисы
+                            не особо любят охотиться на людей...
+                        </p>
+                        <ul class="post-hashtags">
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#лис</a>
+                            </li>
+                            <li class="hashtag">
+                                <a onclick="document.getElementById('post-search').value = this.innerHTML">#снег</a>
+                            </li>
+                            <!--Possibly more hashtags loaded from backend-->
+                        </ul>
+                        <p class="post-date" onclick="document.getElementById('post-search').value = this.innerHTML">Posted: 02.03.2019 14:39</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-footer-buttons">
+                            <button class="like-button">
+                                <img class="like-button-img" src="img/like-button.png" onhover="('You liked the post! Hooray!')"/>
+                            </button>
+                            <button class="comment-button">
+                                <p>Comment</p>
+                            </button>
+                            <button class="more-button">
+                                <img class="more-button-img" src="img/more-button.png"/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="load-button">
+                    <img id="load-button-img" src="img/load-button.png" alt="Load more posts"/>
+                </button>
+
+            </div>
+        </main>
+        <footer>
+            <div class="footer-container">
+                <a id="footer-contact-button" href="mailto:mikita.zhuryk@gmail.com">Contact us</a>
+                <a id="footer-help-button" href="%link_to_help%">Help</a>
+                <span>
+                    <p id="footer-disclaimer">All presented photos and data belong to their owners</p>
+                    <p id="footer-sitename">Insta-Like © Nikita Zhurik FAMCS BSU (Year 2 Group 6)</p>
+                    <p id="footer-last-change">Last change: 04.03.2019</p>
+                </span>
+            </div>
+        </footer>
+    </body>
+</html>
