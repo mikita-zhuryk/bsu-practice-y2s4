@@ -15,9 +15,7 @@ class PostCollection {
     }
 
     static validate(post) {
-        if (post instanceof Post) {
-            post.validate(true);
-        }
+        return (post instanceof Post) && post.validate(true);
     }
 
     addAll(posts) {
