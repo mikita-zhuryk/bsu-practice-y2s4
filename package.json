@@ -1,0 +1,19 @@
+{
+  "name": "bsu-practice-y2s4",
+  "version": "1.0.0",
+  "description": "FAMCS BSU Practice",
+  "main": "UI/js/Controller.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikita-zhuryk/bsu-practice-y2s4.git"
+  },
+  "author": "Nikita Zhurik",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/mikita-zhuryk/bsu-practice-y2s4/issues"
+  },
+  "homepage": "https://github.com/mikita-zhuryk/bsu-practice-y2s4"
+}

@@ -9,7 +9,9 @@
     </head>
 
     <body>
-        <script src="js/photoPosts.js"></script>
+        <script src="js/Post.js"></script>
+        <script src="js/PostCollection.js"></script>
+        <script src="js/Controller.js"></script>
         <header>
             <div id="header-container">
                 <button id="main-logo-button">
@@ -69,7 +71,8 @@
                     <div class="post-footer">
                         <div class="post-footer-buttons">
                             <button class="like-button">
-                                <img class="like-button-img" src="img/like-button.png" onhover="('You liked the post! Hooray!')"/>
+                                <img class="like-button-img" src="img/like-button.png" onclick="console.log('You liked the post! Hooray!')"/>
+                                <input type="number" readonly="readonly" class="like-counter" value="0"/>
                             </button>
                             <button class="comment-button">
                                 <p>Comment</p>
