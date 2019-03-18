@@ -1,10 +1,12 @@
-class Posts {
+import { Post } from "Post.js";
+
+class PostCollection {
 
     constructor (posts) {
-        this._photoPosts = []
+        this._photoPosts = [];
         this._totalPosts = 0;
         posts.forEach(post => {
-            if (post.validatePhotoPost()) {
+            if (post.validate()) {
                 this._totalPosts++;
                 post._id = this._totalPosts.toString();
                 this._photoPosts.push(post);
@@ -12,14 +14,37 @@ class Posts {
         });
     }
 
-    getPhotoPosts(skip = 0, length = 10, filterConfig) {
+    static validate(post) {
+        if (post instanceof Post) {
+            post.validate(true);
+        }
+    }
+
+    addAll(posts) {
+        let rejected = [];
+        posts.forEach(post => {
+            if (post.validate()) {
+                this.pushBack(post);
+            }
+            else {
+                rejected.push(post);
+            }
+        });
+        return rejected;
+    }
+
+    clear() {
+        this._photoPosts.splice(0, this._photoPosts.length);
+    }
+
+    getPage(skip = 0, length = 10, filterConfig) {
         let count = 0;
         let i = (skip >= 0) ? skip : 0;
         let result = [];
         while ((i < this._photoPosts.length) && (count < length)) {
-            if (this._photoPosts[i] && this._photoPosts[i].filterPost(filterConfig)) {
-                    result.push(this._photoPosts[i]);
-                    ++count;
+            if (this._photoPosts[i] && this._photoPosts[i].filter(filterConfig)) {
+                result.push(this._photoPosts[i]);
+                ++count;
             }
             ++i;
         }
@@ -30,8 +55,8 @@ class Posts {
         return result;
     }
 
-    addPhotoPostToStart(post) {
-        if (post.validatePhotoPost()) {
+    pushFront(post) {
+        if (post.validate()) {
             this._photoPosts = this._photoPosts.reverse().push(post).reverse();
             return true;
         }
@@ -39,8 +64,8 @@ class Posts {
         return false;
     }
 
-    addPhotoPost(post) {
-        if (post.validatePhotoPost()) {
+    pushBack(post) {
+        if (post.validate()) {
             this._photoPosts.push(post);
             return true;
         }
@@ -48,7 +73,7 @@ class Posts {
         return false;
     }
 
-    _findPostIndexByID(id) {
+    _findIndexByID(id) {
         return this._photoPosts.findIndex((post) => {
             if (post.id == id) {
                 return true;
@@ -57,17 +82,17 @@ class Posts {
         });
     }
 
-    getPhotoPost(id) {
+    get(id) {
         console.log("Found post with id " + id);
-        return this._photoPosts[this._findPostIndexByID(id)];
+        return this._photoPosts[this._findIndexByID(id)];
     }
     
-    editPhotoPost(id, params) {
-        let postToChangeIndex = this._findPostIndexByID(id)
+    edit(id, params) {
+        let postToChangeIndex = this._findIndexByID(id);
         let postToChange = this._photoPosts[postToChangeIndex];
         console.log("Changing parameters of post #%s", postToChangeIndex);
-        if (postToChange.validatePhotoPost()) {
-            if (params.validatePhotoPost(false)) {
+        if (postToChange.validate()) {
+            if (params.validate(false)) {
                 for (var param in params) {
                     if ((param != "_id") && (params[param])) {
                         console.log("Changing parameter " + param);
@@ -84,11 +109,11 @@ class Posts {
         return false;
     }
 
-    removePhotoPost(id) {
+    remove(id) {
         if (id) {
-            let postToRemoveIndex = this._findPostIndexByID(id);
+            let postToRemoveIndex = this._findIndexByID(id);
             if (postToRemoveIndex != -1) {
-                this._photoPosts[postToRemoveIndex] = null;
+                this._photoPosts.splice(postToRemoveIndex, 1);
                 console.log("Successfully found and removed post with id " + id);
                 return true;
             }

@@ -42,11 +42,11 @@ class Post {
         this._author = author;
     }
 
-    render() {
+    renderHTML() {
         let result = 
         "<div class=\"user-handle\"> \
             <button class=\"user-button\" onclick=\"document.getElementById('post-search').value = this.children[1].children[0].innerHTML\"> \
-                <img class=\"user-avatar\" src=\"%back%/%username%/avatar.png\"/> \
+                <img class=\"user-avatar\" src=\"%back%" + this._author + "/avatar.png\"/> \
                 <h4 class=\"username\"> \
                     <i>" + this._author + "</i> \
                 </h4> \
@@ -65,20 +65,38 @@ class Post {
             result += "<li class=\"hashtag\"> \
                     <a onclick=\"document.getElementById('post-search').value = this.innerHTML\">#" + hashtag + "</a> \
                 </li>\
-                "
+                ";
         }
         result += "</ul> \
             <p class=\"post-date\" onclick=\"document.getElementById('post-search').value = this.innerHTML\">Posted: " + this._createdAt.toString() + "</p> \
-        </div>"
+        </div>";
+        result += "<div class=\"post-footer\"> \
+                    <div class=\"post-footer-buttons\"> \
+                        <button class=\"like-button\"> \
+                            <img class=\"like-button-img\" src=\"img/like-button.png\" onclick=\"console.log('You liked the post! Hooray!')\"/> \
+                            <input type=\"number\" readonly=\"readonly\" class=\"like-counter\" value=" + this._likes.length + "/> \
+                        </button> \
+                        <button class=\"comment-button\"> \
+                            <p>Comment</p> \
+                        </button> \
+                        <button class=\"more-button\"> \
+                            <img class=\"more-button-img\" src=\"img/more-button.png\"/> \
+                        </button> \
+                    </div> \
+                </div>";
+        return result;
     }
 
-    filterPost(filterConfig) {
+    filter(filterConfig) {
         let suits = true;
         if (filterConfig) {
             if (filterConfig.author && (this.author != filterConfig.author)) {
                 suits = false;
             }
             if (filterConfig.description && !this.description.contains(filterConfig.description)) {
+                suits = false;
+            }
+            if (filterConfig.createdAt && !(this._createdAt.toISOString() === filterConfig.createdAt.toISOString())) {
                 suits = false;
             }
             if (filterConfig.hashtags && !filterConfig.hashtags.some(hashtag => { this._hashtags.includes(hashtag); })) {
@@ -88,44 +106,44 @@ class Post {
         return suits;
     }
 
-    validatePhotoPost(must_be_present = true) {
+    validate(must_be_present = true) {
         console.log("Validating post: ");
         console.log(this);
         console.log("Strict: " + must_be_present);
-        let valid = this._validatePhotoPostID(must_be_present)
-        & this._validatePhotoPostDescription(must_be_present)
-        & this._validatePhotoPostCreatedAt(must_be_present)
-        & this._validatePhotoPostAuthor(must_be_present)
-        & this._validatePhotoPostPhotoLink(must_be_present)
-        & this._validatePhotoPostLikes()
-        & this._validatePhotoPostHashtags();
+        let valid = this._validateID(must_be_present)
+        & this._validateDescription(must_be_present)
+        & this._validateCreatedAt(must_be_present)
+        & this._validateAuthor(must_be_present)
+        & this._validatePhotoLink(must_be_present)
+        & this._validateLikes()
+        & this._validateHashtags();
         console.log(valid);
         return valid;
     }
 
-    _validatePhotoPostID(must_be_present) {
+    _validateID(must_be_present) {
         let valid = true;
         if (!this._id) {
             return !must_be_present;
         }
-        else if (typeof(this._id) != 'string') {
+        else if (typeof(this._id) != "string") {
             valid = false;
         }
         return valid;
     }
 
-    _validatePhotoPostDescription(must_be_present) {
+    _validateDescription(must_be_present) {
         let valid = true;
         if (!this._description) {
             return !must_be_present;
         }
-        else if (typeof(this._description) != 'string' || this._description.length >= 200) {
+        else if (typeof(this._description) != "string" || this._description.length >= 200) {
             valid = false;
         }
         return valid;
     }
 
-    _validatePhotoPostCreatedAt(must_be_present) {
+    _validateCreatedAt(must_be_present) {
         let valid = true;
         if (!this._createdAt) {
             return !must_be_present;
@@ -136,41 +154,41 @@ class Post {
         return valid;
     }
 
-    _validatePhotoPostAuthor(must_be_present) {
+    _validateAuthor(must_be_present) {
         let valid = true;
         if (!this._author) {
             return !must_be_present;
         }
-        else if (typeof(this._author) != 'string' || this._author.length == 0) {
+        else if (typeof(this._author) != "string" || this._author.length == 0) {
             valid = false;
         }
         return valid;
     }
 
-    _validatePhotoPostPhotoLink(must_be_present) {
+    _validatePhotoLink(must_be_present) {
         let valid = true;
         if (!this._photoLink) {
             return !must_be_present;
         }
-        else if (typeof(this._photoLink) != 'string' || this._photoLink.length == 0) {
+        else if (typeof(this._photoLink) != "string" || this._photoLink.length == 0) {
             valid = false;
         }
         return valid;
     }
 
-    _validatePhotoPostLikes(post) {
+    _validateLikes() {
         if (this._likes) {
             return this._likes.every((like) => {
-                return ((typeof(like) == 'string') && (like.length > 0));
+                return ((typeof(like) == "string") && (like.length > 0));
             });
         }
         return true;
     }
 
-    _validatePhotoPostHashtags(post) {
+    _validateHashtags() {
         if (this._hashtags) {
             return this._hashtags.every((tag) => {
-                return ((typeof(tag) == 'string') && (tag.length > 0));
+                return ((typeof(tag) == "string") && (tag.length > 0));
             });
         }
         return true;
