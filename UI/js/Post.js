@@ -42,6 +42,10 @@ class Post {
         this._author = author;
     }
 
+    get node() {
+        return this._renderedNode;
+    }
+
     render() {
         this._template = document.querySelector("#template-post");
         let newNode = this._template.content.cloneNode(true);
@@ -63,6 +67,8 @@ class Post {
         let likeCounter = newNode.querySelector(".like-counter");
         likeCounter.value = this._likes.length;
         document.getElementById("feed-main").appendChild(newNode);
+        let nodes = document.querySelectorAll(".photopost");
+        this._renderedNode = nodes[nodes.length - 1];
     }
 
     filter(filterConfig) {

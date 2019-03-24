@@ -51,4 +51,6 @@ posts.edit("9", new Post(
     likes = ["Иннокентий Варфоломеев", ],
 ));
 
-document.addEventListener("DOMContentLoaded", function() { posts.renderFeed(); });
+document.addEventListener("DOMContentLoaded", function() {
+    posts.renderFeed();
+});
