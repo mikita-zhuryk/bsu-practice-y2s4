@@ -18,7 +18,7 @@ class PostCollection {
         return (post instanceof Post) && post.validate(true);
     }
 
-    render(skip = 0, length = 10, filterConfig) {
+    renderFeed(skip = 0, length = 10, filterConfig) {
         this.getPage(skip, length,filterConfig).forEach((post) => {
             if (post.validate()) {
                 post.render();

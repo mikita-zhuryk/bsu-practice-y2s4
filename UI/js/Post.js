@@ -49,6 +49,19 @@ class Post {
         author.innerHTML = this._author;
         let photo = newNode.querySelector(".post-photo");
         photo.setAttribute("src", this._photoLink);
+        let desc = newNode.querySelector(".post-text");
+        desc.innerText = this._description;
+        let hashtags = newNode.querySelector(".post-hashtags");
+        let tagTemplate = document.querySelector("#template-hashtag");
+        this._hashtags.forEach((hashtag) => {
+            let tag = tagTemplate.content.cloneNode(true);
+            tag.querySelector("a").innerText = "#" + hashtag;
+            hashtags.appendChild(tag);
+        });
+        let date = newNode.querySelector(".post-date");
+        date.innerText = this._createdAt.toString();
+        let likeCounter = newNode.querySelector(".like-counter");
+        likeCounter.value = this._likes.length;
         document.getElementById("feed-main").appendChild(newNode);
     }
 

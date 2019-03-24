@@ -9,7 +9,7 @@
     </head>
 
     <body>
-        
+
         <template id="template-post">
             <div class="photopost">
                 <div class="user-handle">
@@ -23,24 +23,15 @@
                 </div>
                 <div class="photo-container">
                     <!--<img class="post-photo" src="%back%/%username%/#%post-number%"/>-->
-                    <img class="post-photo" src="https://drive.google.com/file/d/12VFrWI5GVjzXsepD_jG8G-qsLqq75A_7/view?usp=sharing" onclick="window.open(this.src)"/>
+                    <img class="post-photo" src="DEFAULT_LINK" onclick="window.open(this.src)"/>
                 </div>
                 <div class="post-info">
                     <p class="post-text">
-                        Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой,
-                        и заметил фотографа, но есть его не собирается. То ли он не голоден, то ли у фотографа слишком мало мяска - непонятно. Хотя вроде бы лисы
-                        не особо любят охотиться на людей...
+                        DEFAULT_DESCRIPTION
                     </p>
                     <ul class="post-hashtags">
-                        <li class="hashtag">
-                            <a onclick="document.getElementById('post-search').value = this.innerHTML">#лис</a>
-                        </li>
-                        <li class="hashtag">
-                            <a onclick="document.getElementById('post-search').value = this.innerHTML">#снег</a>
-                        </li>
-                        <!--Possibly more hashtags loaded from backend-->
                     </ul>
-                    <p class="post-date" onclick="document.getElementById('post-search').value = this.innerHTML">Posted: 02.03.2019 14:39</p>
+                    <p class="post-date" onclick="document.getElementById('post-search').value = this.innerHTML">DEFAULT_DATE</p>
                 </div>
                 <div class="post-footer">
                     <div class="post-footer-buttons">
@@ -57,6 +48,16 @@
                     </div>
                 </div>
             </div>
+        </template>
+
+        <template id="template-hashtag">
+            <li class="hashtag">
+                <a onclick="document.getElementById('post-search').value = this.innerHTML"></a>
+            </li>
+        </template>
+
+        <template id="template-comment">
+
         </template>
 
         <script src="js/Post.js"></script>
@@ -92,7 +93,7 @@
                 </div>
 
                 <button id="load-button">
-                    <img id="load-button-img" src="img/load-button.png" alt="Load more posts" onclick="posts.render(skip=this.parentNode.previousElementSibling.querySelectorAll('.photopost').length)"/>
+                    <img id="load-button-img" src="img/load-button.png" alt="Load more posts" onclick="posts.renderFeed(skip=this.parentNode.previousElementSibling.querySelectorAll('.photopost').length)"/>
                 </button>
 
             </div>
@@ -104,7 +105,7 @@
                 <span>
                     <p id="footer-disclaimer">All presented photos and data belong to their owners</p>
                     <p id="footer-sitename">Insta-Like © Nikita Zhurik FAMCS BSU (Year 2 Group 6)</p>
-                    <p id="footer-last-change">Last change: 04.03.2019</p>
+                    <p id="footer-last-change">Last change: 24.03.2019</p>
                 </span>
             </div>
         </footer>
