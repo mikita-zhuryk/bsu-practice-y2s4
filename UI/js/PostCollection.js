@@ -15,9 +15,7 @@ class PostCollection {
     }
 
     static validate(post) {
-        if (post instanceof Post) {
-            post.validate(true);
-        }
+        return (post instanceof Post) && post.validate(true);
     }
 
     render(skip = 0, length = 10, filterConfig) {
