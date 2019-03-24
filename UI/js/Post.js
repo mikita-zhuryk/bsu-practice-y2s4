@@ -1,45 +1,34 @@
 class Post {
 
-    constructor (description, createdAt, author, photoLink, likes, hashtags) {
+    constructor (description, createdAt, author, photoLink, likes, hashtags, comments) {
         this._id = "default";
         this._description = description;
         this._createdAt = createdAt;
         this._author = author;
         this._photoLink = photoLink;
-        this._likes = likes;
-        this._hashtags = hashtags;
+        this._likes = likes || [];
+        this._hashtags = hashtags || [];
+        this._comments = comments || [];
     }
 
     get id() {
         return this._id;
     }
 
-    set id(value) {
-        this._id = value;
-    }
-
     get description() {
         return this._description;
-    }
-    
-    set description(desc) {
-        this._description = desc;
     }
 
     get createdAt() {
         return this._createdAt;
     }
 
-    set createdAt(createdAt) {
-        this._createdAt = createdAt;
-    }
-
     get author() {
         return this._author;
     }
 
-    set author(author) {
-        this._author = author;
+    get likes() {
+        return this._likes;
     }
 
     get node() {
@@ -49,12 +38,17 @@ class Post {
     render() {
         this._template = document.querySelector("#template-post");
         let newNode = this._template.content.cloneNode(true);
+        newNode.querySelector("div").setAttribute("id", this._id);
+
         let author = newNode.querySelector(".username");
         author.innerHTML = this._author;
+
         let photo = newNode.querySelector(".post-photo");
         photo.setAttribute("src", this._photoLink);
+
         let desc = newNode.querySelector(".post-text");
         desc.innerText = this._description;
+
         let hashtags = newNode.querySelector(".post-hashtags");
         let tagTemplate = document.querySelector("#template-hashtag");
         this._hashtags.forEach((hashtag) => {
@@ -62,10 +56,14 @@ class Post {
             tag.querySelector("a").innerText = "#" + hashtag;
             hashtags.appendChild(tag);
         });
+
         let date = newNode.querySelector(".post-date");
         date.innerText = this._createdAt.toString();
+
+        //Add code to make post liked if current user is in the likes array
         let likeCounter = newNode.querySelector(".like-counter");
         likeCounter.value = this._likes.length;
+
         document.getElementById("feed-main").appendChild(newNode);
         let nodes = document.querySelectorAll(".photopost");
         this._renderedNode = nodes[nodes.length - 1];
