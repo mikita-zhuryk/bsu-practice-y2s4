@@ -1,10 +1,12 @@
 //import Post from "./Post.js";
 //import PostCollection from "./PostCollection.js";
 
+let currentUser = "Guest";
+
 let photoPosts = [
     new Post("Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой, \
     и заметил фотографа, но есть его не собирается.",
-    new Date(2019, 3, 2, 14, 39), "Somebody", "https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13", [], ["лис", "снег"]),
+    new Date(2019, 3, 2, 14, 39), "Somebody", "https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13", null, ["лис", "снег"]),
     new Post("Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой, \
     и заметил фотографа, но есть его не собирается.",
     new Date(2019, 3, 2, 14, 39), "Somebody once", "https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13", [], ["лис", "снег"]),
@@ -42,15 +44,7 @@ let photoPosts = [
 
 let posts = new PostCollection(photoPosts);
 
-posts.remove("10");
-posts.edit("9", new Post(
-    description = "New description",
-    undefined,
-    undefined,
-    undefined,
-    likes = ["Иннокентий Варфоломеев", ],
-));
-
 document.addEventListener("DOMContentLoaded", function() {
-    posts.renderFeed();
+    View.updateFeed();
+    View.test();
 });
