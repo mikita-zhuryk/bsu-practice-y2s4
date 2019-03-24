@@ -1,4 +1,4 @@
-import { Post } from "Post.js";
+//import Post from "./Post.js";
 
 class PostCollection {
 
@@ -18,6 +18,14 @@ class PostCollection {
         if (post instanceof Post) {
             post.validate(true);
         }
+    }
+
+    render(skip = 0, length = 10, filterConfig) {
+        this.getPage(skip, length,filterConfig).forEach((post) => {
+            if (post.validate()) {
+                post.render();
+            }
+        });
     }
 
     addAll(posts) {

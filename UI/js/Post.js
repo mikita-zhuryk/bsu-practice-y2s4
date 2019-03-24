@@ -42,49 +42,14 @@ class Post {
         this._author = author;
     }
 
-    renderHTML() {
-        let result = 
-        "<div class=\"user-handle\"> \
-            <button class=\"user-button\" onclick=\"document.getElementById('post-search').value = this.children[1].children[0].innerHTML\"> \
-                <img class=\"user-avatar\" src=\"%back%" + this._author + "/avatar.png\"/> \
-                <h4 class=\"username\"> \
-                    <i>" + this._author + "</i> \
-                </h4> \
-            </button> \
-        </div> \
-        <div class=\"photo-container\"> \
-            <img class=\"post-photo\" src=" + this._photoLink + " onclick=\"window.open(this.src)\"/> \
-        </div> \
-        <div class=\"post-info\"> \
-            <p class=\"post-text\"> \
-                " + this._description + " \
-            </p> \
-            <ul class=\"post-hashtags\">\
-                ";
-        for (hashtag in this._hashtags) {
-            result += "<li class=\"hashtag\"> \
-                    <a onclick=\"document.getElementById('post-search').value = this.innerHTML\">#" + hashtag + "</a> \
-                </li>\
-                ";
-        }
-        result += "</ul> \
-            <p class=\"post-date\" onclick=\"document.getElementById('post-search').value = this.innerHTML\">Posted: " + this._createdAt.toString() + "</p> \
-        </div>";
-        result += "<div class=\"post-footer\"> \
-                    <div class=\"post-footer-buttons\"> \
-                        <button class=\"like-button\"> \
-                            <img class=\"like-button-img\" src=\"img/like-button.png\" onclick=\"console.log('You liked the post! Hooray!')\"/> \
-                            <input type=\"number\" readonly=\"readonly\" class=\"like-counter\" value=" + this._likes.length + "/> \
-                        </button> \
-                        <button class=\"comment-button\"> \
-                            <p>Comment</p> \
-                        </button> \
-                        <button class=\"more-button\"> \
-                            <img class=\"more-button-img\" src=\"img/more-button.png\"/> \
-                        </button> \
-                    </div> \
-                </div>";
-        return result;
+    render() {
+        this._template = document.querySelector("#template-post");
+        let newNode = this._template.content.cloneNode(true);
+        let author = newNode.querySelector(".username");
+        author.innerHTML = this._author;
+        let photo = newNode.querySelector(".post-photo");
+        photo.setAttribute("src", this._photoLink);
+        document.getElementById("feed-main").appendChild(newNode);
     }
 
     filter(filterConfig) {
@@ -107,9 +72,9 @@ class Post {
     }
 
     validate(must_be_present = true) {
-        console.log("Validating post: ");
-        console.log(this);
-        console.log("Strict: " + must_be_present);
+        // console.log("Validating post: ");
+        // console.log(this);
+        // console.log("Strict: " + must_be_present);
         let valid = this._validateID(must_be_present)
         & this._validateDescription(must_be_present)
         & this._validateCreatedAt(must_be_present)
@@ -117,7 +82,7 @@ class Post {
         & this._validatePhotoLink(must_be_present)
         & this._validateLikes()
         & this._validateHashtags();
-        console.log(valid);
+        //console.log(valid);
         return valid;
     }
 
