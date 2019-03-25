@@ -1,4 +1,4 @@
-//import Post from "./Post.js";
+"use strict";
 
 class PostCollection {
 
@@ -97,7 +97,7 @@ class PostCollection {
         if (postToChange && postToChange.validate()) {
             if (params && params.validate(false)) {
                 for (var param in params) {
-                    if ((param != "_id") && (params[param])) {
+                    if ((param !== "_id") && (params[param])) {
                         console.log("Changing parameter " + param);
                         postToChange[param] = params[param];
                     }
@@ -115,7 +115,7 @@ class PostCollection {
     remove(id) {
         if (id) {
             let postToRemoveIndex = this._findIndexByID(id);
-            if (postToRemoveIndex != -1) {
+            if (postToRemoveIndex !== -1) {
                 this._photoPosts.splice(postToRemoveIndex, 1);
                 console.log("Successfully found and removed post with id " + id);
                 return true;

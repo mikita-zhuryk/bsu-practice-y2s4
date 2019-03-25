@@ -1,3 +1,5 @@
+"use strict";
+
 class Post {
 
     constructor (description, createdAt, author, photoLink, likes, hashtags, comments) {
@@ -74,7 +76,7 @@ class Post {
     filter(filterConfig) {
         let suits = true;
         if (filterConfig) {
-            if (filterConfig.author && (this.author != filterConfig.author)) {
+            if (filterConfig.author && (this.author !== filterConfig.author)) {
                 suits = false;
             }
             if (filterConfig.description && !this.description.contains(filterConfig.description)) {
@@ -110,7 +112,7 @@ class Post {
         if (!this._id) {
             return !must_be_present;
         }
-        else if (typeof(this._id) != "string") {
+        else if (typeof(this._id) !== "string") {
             valid = false;
         }
         return valid;
@@ -121,7 +123,7 @@ class Post {
         if (!this._description) {
             return !must_be_present;
         }
-        else if (typeof(this._description) != "string" || this._description.length >= 200) {
+        else if (typeof(this._description) !== "string" || this._description.length >= 200) {
             valid = false;
         }
         return valid;
@@ -143,7 +145,7 @@ class Post {
         if (!this._author) {
             return !must_be_present;
         }
-        else if (typeof(this._author) != "string" || this._author.length == 0) {
+        else if (typeof(this._author) !== "string" || this._author.length === 0) {
             valid = false;
         }
         return valid;
@@ -154,7 +156,7 @@ class Post {
         if (!this._photoLink) {
             return !must_be_present;
         }
-        else if (typeof(this._photoLink) != "string" || this._photoLink.length == 0) {
+        else if (typeof(this._photoLink) !== "string" || this._photoLink.length === 0) {
             valid = false;
         }
         return valid;
@@ -163,7 +165,7 @@ class Post {
     _validateLikes() {
         if (this._likes) {
             return this._likes.every((like) => {
-                return ((typeof(like) == "string") && (like.length > 0));
+                return ((typeof(like) === "string") && (like.length > 0));
             });
         }
         return true;
@@ -172,7 +174,7 @@ class Post {
     _validateHashtags() {
         if (this._hashtags) {
             return this._hashtags.every((tag) => {
-                return ((typeof(tag) == "string") && (tag.length > 0));
+                return ((typeof(tag) === "string") && (tag.length > 0));
             });
         }
         return true;

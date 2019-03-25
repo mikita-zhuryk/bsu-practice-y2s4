@@ -1,6 +1,8 @@
 //import Post from "./Post.js";
 //import PostCollection from "./PostCollection.js";
 
+"use strict";
+
 class Controller {
 
     login(username = "Vasya", password = "123456") {
