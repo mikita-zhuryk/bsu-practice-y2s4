@@ -1,12 +1,40 @@
 //import Post from "./Post.js";
 //import PostCollection from "./PostCollection.js";
 
+class Controller {
+
+    static login(username = "Vasya", password = "123456") {
+        if (password === "123456") {
+            currentUser = "Vasya";
+        }
+        View.showLoggedUI();
+    }
+
+    static signOut() {
+        currentUser = "Guest";
+        View.hideLoggedUI();
+    }
+
+    static get currentUser() {
+        return currentUser;
+    }
+
+    static get logged() {
+        return currentUser !== "Guest";
+    }
+
+    static removePhotoPost(id) {
+        posts.remove(id);
+    }
+
+}
+
 let currentUser = "Guest";
 
 let photoPosts = [
     new Post("Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой, \
     и заметил фотографа, но есть его не собирается.",
-    new Date(2019, 3, 2, 14, 39), "Somebody", "https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13", null, ["лис", "снег"]),
+    new Date(2019, 3, 2, 14, 39), "Vasya", "https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13", null, ["лис", "снег"]),
     new Post("Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой, \
     и заметил фотографа, но есть его не собирается.",
     new Date(2019, 3, 2, 14, 39), "Somebody once", "https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13", [], ["лис", "снег"]),

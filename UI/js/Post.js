@@ -40,6 +40,8 @@ class Post {
         let newNode = this._template.content.cloneNode(true);
         newNode.querySelector("div").setAttribute("id", this._id);
 
+        let avatar = newNode.querySelector(".user-avatar");
+        avatar.setAttribute("src", "%backend%/" + this._author + "/avatar.png");
         let author = newNode.querySelector(".username");
         author.innerHTML = this._author;
 
