@@ -1,6 +1,6 @@
 class View {
     
-    static updateFeed() {
+    updateFeed() {
         let skip = document.querySelectorAll(".photopost").length;
         posts.getPage(skip).forEach((post) => {
             if (post.validate()) {
@@ -9,11 +9,11 @@ class View {
         });
     }
 
-    static search(request) {
+    search(request) {
         
     }
 
-    static toggleMenu() {
+    toggleMenu() {
         let menuNode = document.querySelector(".menu");
         if (!menuNode) {
             this.showMenu();
@@ -23,7 +23,7 @@ class View {
         }
     }
 
-    static showMenu() {
+    showMenu() {
         let menuNode = document.querySelector(".menu");
         if (menuNode) {
             return;
@@ -31,7 +31,7 @@ class View {
         let body = document.querySelector("body");
         let main = document.querySelector("main");
         let menu;
-        if (!Controller.logged) {
+        if (!controller.logged) {
             menu = document.querySelector("#template-menu-guest").content.cloneNode(true);
         }
         else {
@@ -41,34 +41,34 @@ class View {
         body.insertBefore(menu, main);
     }
 
-    static hideMenu() {
+    hideMenu() {
         let menuNode = document.querySelector(".menu");
         let notMenuNode = document.querySelector(".definitely-not-menu");
         notMenuNode && notMenuNode.parentNode.removeChild(notMenuNode);
         menuNode && menuNode.parentNode.removeChild(menuNode);
     }
 
-    static showLoggedUI() {
+    showLoggedUI() {
         let avatar = document.querySelector("#logged-user-avatar");
         avatar.setAttribute("src", "%backend%/" + currentUser + "/avatar.png");
         avatar.style.visibility = "visible";
         document.querySelector("#add-photo-button").style.visibility = "visible";
     }
 
-    static hideLoggedUI() {
+    hideLoggedUI() {
         let avatar = document.querySelector("#logged-user-avatar");
         avatar.setAttribute("src", "");
         avatar.style.visibility = "hidden";
         document.querySelector("#add-photo-button").style.visibility = "hidden";
     }
 
-    static showNewPostUI() {
+    showNewPostUI() {
 
     }
 
-    static togglePostMore(post) {
+    togglePostMore(post) {
         //show report
-        if (Controller.currentUser === posts.get(post.getAttribute("id")).author) {
+        if (controller.currentUser === posts.get(post.getAttribute("id")).author) {
             this._showMoreButtonContent(true);
             //show edit and remove
         }
@@ -77,37 +77,37 @@ class View {
         }
     }
 
-    static appendToFeed(posts) {
+    appendToFeed(posts) {
         posts.forEach(post => {
             post && post.validate() && post.render();
         });
     }
 
-    static _showMoreButtonContent() {
+    _showMoreButtonContent(isAuthor) {
 
     }
 
-    static removePhotoPost(post) {
+    removePhotoPost(post) {
         let id = post.getAttribute("id");
         post.parentNode.removeChild(post);
-        post && Controller.removePhotoPost(id);;
+        post && controller.removePhotoPost(id);;
         let skip = document.querySelectorAll(".photopost").length;
         this.appendToFeed(posts.getPage(skip, 1));
     }
 
-    static editPhotoPost(post, newPost) {
+    editPhotoPost(post, newPost) {
         
     }
 
-    static reportPhotoPost() {
+    reportPhotoPost() {
 
     }
 
-    static updateLikeCounter(likeButton) {
+    updateLikeCounter(likeButton) {
         let likeCounter = likeButton.nextElementSibling;
         let postID = likeButton.parentNode.parentNode.parentNode.id;
         let post = posts.get(postID);
-        if (!Controller.logged) {
+        if (!controller.logged) {
             return;
         }
         else if (!post.likes.includes(currentUser)) {
@@ -122,7 +122,7 @@ class View {
         }
     }
 
-    static zoomPhoto(imgNode) {
+    zoomPhoto(imgNode) {
         console.log(imgNode);
         let node = document.querySelector("#template-zoom").content.cloneNode(true);
         node && node.querySelectorAll("img")[1].setAttribute("src", imgNode.getAttribute("src"));
@@ -132,14 +132,14 @@ class View {
         document.querySelector("header").style.visibility = "hidden";
     }
 
-    static unzoomPhoto() {
+    unzoomPhoto() {
         document.querySelector("body").style.overflow = "auto";
         document.querySelector("header").style.visibility = "visible";
         let main = document.querySelector("main");
         main && main.removeChild(main.lastElementChild);
     }
 
-    static toggleSearchCrossButton() {
+    toggleSearchCrossButton() {
         let crossButton = document.querySelector("#clear-post-search");
         let searchForm = crossButton.previousElementSibling;
         if ((crossButton.style.visibility === "visible") && (searchForm.value === "")) {
@@ -150,7 +150,7 @@ class View {
         }
     }
 
-    static test() {
+    test() {
         this.removePhotoPost(document.querySelectorAll(".photopost")[8]);
         posts.edit("1", new Post(
             "New description",
@@ -162,3 +162,5 @@ class View {
     }
 
 };
+
+let view = new View();

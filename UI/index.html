@@ -22,7 +22,7 @@
                     </button>
                 </div>
                 <div class="photo-container">
-                    <img class="post-photo" src="DEFAULT_LINK" onclick="View.zoomPhoto(this)"/>
+                    <img class="post-photo" src="DEFAULT_LINK" onclick="view.zoomPhoto(this)"/>
                 </div>
                 <div class="post-info">
                     <p class="post-text">DEFAULT_DESCRIPTION</p>
@@ -31,14 +31,14 @@
                 </div>
                 <div class="post-footer">
                     <div class="post-footer-buttons">
-                        <button class="like-button" onclick="View.showMenu(); View.updateLikeCounter(this)">
+                        <button class="like-button" onclick="view.showMenu(); view.updateLikeCounter(this)">
                             <img class="like-button-img" src="img/like-button.png"/>
                         </button>
                         <input type="number" readonly="readonly" class="like-counter" value="0"/>
                         <button class="comment-button">
                             <p>Comment</p>
                         </button>
-                        <button class="more-button" onclick="View.togglePostMore(this.parentNode.parentNode.parentNode)">
+                        <button class="more-button" onclick="view.togglePostMore(this.parentNode.parentNode.parentNode)">
                             <img class="more-button-img" src="img/more-button.png"/>
                         </button>
                     </div>
@@ -55,24 +55,24 @@
         </template>
         <template id="template-zoom">
             <div class="zoomed-photo">
-                <button onclick="View.unzoomPhoto()"><img src="img/cross.png"/></button>
+                <button onclick="view.unzoomPhoto()"><img src="img/cross.png"/></button>
                 <img src="DEFAULT_LINK"/>
             </div>
         </template>
         <template id="template-menu-guest">
-            <div class="definitely-not-menu" onclick="View.toggleMenu()"></div>
+            <div class="definitely-not-menu" onclick="view.toggleMenu()"></div>
             <div class="menu" id="menu">
                 <form name="login" target="%URL%">
                     <input type="text" id="username-input" placeholder="Username" form="login"/>
                     <input type="password" id="password-input" placeholder="Password" form="login"/>
                 </form>
-                <button type="submit" name="login" onclick="Controller.login(); View.hideMenu()">Login</button>
+                <button type="submit" name="login" onclick="controller.login(); view.hideMenu()">Login</button>
             </div>
         </template>
         <template id="template-menu-user">
-            <div class="definitely-not-menu" onclick="View.toggleMenu()"></div>
+            <div class="definitely-not-menu" onclick="view.toggleMenu()"></div>
             <div class="menu" id="menu">
-                <button class="log-out-button" onclick="Controller.signOut(); View.hideMenu();">Sign out</button>
+                <button class="log-out-button" onclick="controller.signOut(); view.hideMenu();">Sign out</button>
             </div>
         </template>
 
@@ -85,7 +85,7 @@
                 <button id="logged-user-avatar">
                     <img src="%back%/%logged-username%/avatar.png"/>
                 </button>
-                <button id="main-menu-button" onclick="View.toggleMenu()">
+                <button id="main-menu-button" onclick="view.toggleMenu()">
                     <img src="img/three-bars.png"/>
                 </button>
             </div>
@@ -93,16 +93,16 @@
         <main>
             <div class="feed" id="photofeed">
                 <div id="feed-head">
-                    <input type="text" id="post-search" placeholder="Search..." oninput="View.toggleSearchCrossButton(); View.search(this.value);"/>
-                    <button id="clear-post-search" style="visibility: hidden" onclick="this.previousElementSibling.value = ''; View.toggleSearchCrossButton()">
+                    <input type="text" id="post-search" placeholder="Search..." oninput="view.toggleSearchCrossButton(); view.search(this.value);"/>
+                    <button id="clear-post-search" style="visibility: hidden" onclick="this.previousElementSibling.value = ''; view.toggleSearchCrossButton()">
                         <img src="img/cross.png"/>
                     </button>
-                    <button id="add-photo-button" onclick="View.showNewPostUI()">+</button>
+                    <button id="add-photo-button" onclick="view.showNewPostUI()">+</button>
                 </div>
                 <div id="feed-main">
                 </div>
                 <button id="load-button">
-                    <img id="load-button-img" src="img/load-button.png" alt="Load more posts" onclick="View.updateFeed()"/>
+                    <img id="load-button-img" src="img/load-button.png" alt="Load more posts" onclick="view.updateFeed()"/>
                 </button>
 
             </div>
@@ -114,7 +114,7 @@
                 <span>
                     <p id="footer-disclaimer">All presented photos and data belong to their owners</p>
                     <p id="footer-sitename">Insta-Like © Nikita Zhurik FAMCS BSU (Year 2 Group 6)</p>
-                    <p id="footer-last-change">Last change: 24.03.2019</p>
+                    <p id="footer-last-change">Last change: 25.03.2019</p>
                 </span>
             </div>
         </footer>

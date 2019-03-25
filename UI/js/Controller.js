@@ -3,31 +3,33 @@
 
 class Controller {
 
-    static login(username = "Vasya", password = "123456") {
+    login(username = "Vasya", password = "123456") {
         if (password === "123456") {
             currentUser = "Vasya";
         }
-        View.showLoggedUI();
+        view.showLoggedUI();
     }
 
-    static signOut() {
+    signOut() {
         currentUser = "Guest";
-        View.hideLoggedUI();
+        view.hideLoggedUI();
     }
 
-    static get currentUser() {
+    get currentUser() {
         return currentUser;
     }
 
-    static get logged() {
+    get logged() {
         return currentUser !== "Guest";
     }
 
-    static removePhotoPost(id) {
+    removePhotoPost(id) {
         posts.remove(id);
     }
 
 }
+
+let controller = new Controller();
 
 let currentUser = "Guest";
 
@@ -73,6 +75,6 @@ let photoPosts = [
 let posts = new PostCollection(photoPosts);
 
 document.addEventListener("DOMContentLoaded", function() {
-    View.updateFeed();
-    View.test();
+    view.updateFeed();
+    view.test();
 });
