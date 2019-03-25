@@ -1,4 +1,4 @@
-import { Post } from "Post.js";
+//import Post from "./Post.js";
 
 class PostCollection {
 
@@ -7,11 +7,19 @@ class PostCollection {
         this._totalPosts = 0;
         posts.forEach(post => {
             if (post.validate()) {
-                this._totalPosts++;
-                post._id = this._totalPosts.toString();
+                post._id = Math.random().toString(36).replace(/[^a-z]+/g, "");
+                while (!this._photoPosts.findIndex((v) => {
+                    return v.id == post._id;
+                })) {
+                    post._id = Math.random().toString(36).replace(/[^a-z]+/g, "");
+                }
                 this._photoPosts.push(post);
             }
         });
+    }
+
+    get length() {
+        return this._photoPosts.length;
     }
 
     static validate(post) {
@@ -20,7 +28,7 @@ class PostCollection {
 
     addAll(posts) {
         let rejected = [];
-        posts.forEach(post => {
+        posts && posts.forEach(post => {
             if (post.validate()) {
                 this.pushBack(post);
             }
@@ -54,7 +62,7 @@ class PostCollection {
     }
 
     pushFront(post) {
-        if (post.validate()) {
+        if (post && post.validate()) {
             this._photoPosts = this._photoPosts.reverse().push(post).reverse();
             return true;
         }
@@ -63,7 +71,7 @@ class PostCollection {
     }
 
     pushBack(post) {
-        if (post.validate()) {
+        if (post && post.validate()) {
             this._photoPosts.push(post);
             return true;
         }
@@ -73,10 +81,7 @@ class PostCollection {
 
     _findIndexByID(id) {
         return this._photoPosts.findIndex((post) => {
-            if (post.id == id) {
-                return true;
-            }
-            return false;
+            return post.id == id;
         });
     }
 
@@ -89,8 +94,8 @@ class PostCollection {
         let postToChangeIndex = this._findIndexByID(id);
         let postToChange = this._photoPosts[postToChangeIndex];
         console.log("Changing parameters of post #%s", postToChangeIndex);
-        if (postToChange.validate()) {
-            if (params.validate(false)) {
+        if (postToChange && postToChange.validate()) {
+            if (params && params.validate(false)) {
                 for (var param in params) {
                     if ((param != "_id") && (params[param])) {
                         console.log("Changing parameter " + param);
@@ -118,6 +123,12 @@ class PostCollection {
         }
         console.log("Failed to remove post with id " + id);
         return false;
+    }
+
+    removeByIndex(index) {
+        if ((index >= 0) && (index < this._photoPosts.length)) {
+            this._photoPosts.splice(index, 1);
+        }
     }
     
 };

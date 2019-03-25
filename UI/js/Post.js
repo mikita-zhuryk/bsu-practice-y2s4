@@ -1,90 +1,74 @@
 class Post {
 
-    constructor (description, createdAt, author, photoLink, likes, hashtags) {
+    constructor (description, createdAt, author, photoLink, likes, hashtags, comments) {
         this._id = "default";
         this._description = description;
         this._createdAt = createdAt;
         this._author = author;
         this._photoLink = photoLink;
-        this._likes = likes;
-        this._hashtags = hashtags;
+        this._likes = likes || [];
+        this._hashtags = hashtags || [];
+        this._comments = comments || [];
     }
 
     get id() {
         return this._id;
     }
 
-    set id(value) {
-        this._id = value;
-    }
-
     get description() {
         return this._description;
-    }
-    
-    set description(desc) {
-        this._description = desc;
     }
 
     get createdAt() {
         return this._createdAt;
     }
 
-    set createdAt(createdAt) {
-        this._createdAt = createdAt;
-    }
-
     get author() {
         return this._author;
     }
 
-    set author(author) {
-        this._author = author;
+    get likes() {
+        return this._likes;
     }
 
-    renderHTML() {
-        let result = 
-        "<div class=\"user-handle\"> \
-            <button class=\"user-button\" onclick=\"document.getElementById('post-search').value = this.children[1].children[0].innerHTML\"> \
-                <img class=\"user-avatar\" src=\"%back%" + this._author + "/avatar.png\"/> \
-                <h4 class=\"username\"> \
-                    <i>" + this._author + "</i> \
-                </h4> \
-            </button> \
-        </div> \
-        <div class=\"photo-container\"> \
-            <img class=\"post-photo\" src=" + this._photoLink + " onclick=\"window.open(this.src)\"/> \
-        </div> \
-        <div class=\"post-info\"> \
-            <p class=\"post-text\"> \
-                " + this._description + " \
-            </p> \
-            <ul class=\"post-hashtags\">\
-                ";
-        for (hashtag in this._hashtags) {
-            result += "<li class=\"hashtag\"> \
-                    <a onclick=\"document.getElementById('post-search').value = this.innerHTML\">#" + hashtag + "</a> \
-                </li>\
-                ";
-        }
-        result += "</ul> \
-            <p class=\"post-date\" onclick=\"document.getElementById('post-search').value = this.innerHTML\">Posted: " + this._createdAt.toString() + "</p> \
-        </div>";
-        result += "<div class=\"post-footer\"> \
-                    <div class=\"post-footer-buttons\"> \
-                        <button class=\"like-button\"> \
-                            <img class=\"like-button-img\" src=\"img/like-button.png\" onclick=\"console.log('You liked the post! Hooray!')\"/> \
-                            <input type=\"number\" readonly=\"readonly\" class=\"like-counter\" value=" + this._likes.length + "/> \
-                        </button> \
-                        <button class=\"comment-button\"> \
-                            <p>Comment</p> \
-                        </button> \
-                        <button class=\"more-button\"> \
-                            <img class=\"more-button-img\" src=\"img/more-button.png\"/> \
-                        </button> \
-                    </div> \
-                </div>";
-        return result;
+    get node() {
+        return this._renderedNode;
+    }
+
+    render() {
+        this._template = document.querySelector("#template-post");
+        let newNode = this._template.content.cloneNode(true);
+        newNode.querySelector("div").setAttribute("id", this._id);
+
+        let avatar = newNode.querySelector(".user-avatar");
+        avatar.setAttribute("src", "%backend%/" + this._author + "/avatar.png");
+        let author = newNode.querySelector(".username");
+        author.innerHTML = this._author;
+
+        let photo = newNode.querySelector(".post-photo");
+        photo.setAttribute("src", this._photoLink);
+
+        let desc = newNode.querySelector(".post-text");
+        desc.innerText = this._description;
+
+        let hashtags = newNode.querySelector(".post-hashtags");
+        let tagTemplate = document.querySelector("#template-hashtag");
+        this._hashtags.forEach((hashtag) => {
+            let tag = tagTemplate.content.cloneNode(true);
+            tag.querySelector("a").innerText = "#" + hashtag;
+            hashtags.appendChild(tag);
+        });
+
+        let date = newNode.querySelector(".post-date");
+        date.innerText = this._createdAt.toString();
+
+        //Add code to make post liked if current user is in the likes array
+        let likeCounter = newNode.querySelector(".like-counter");
+        likeCounter.value = this._likes.length;
+
+        document.getElementById("feed-main").appendChild(newNode);
+        let nodes = document.querySelectorAll(".photopost");
+        this._renderedNode = nodes[nodes.length - 1];
     }
 
     filter(filterConfig) {
@@ -107,9 +91,9 @@ class Post {
     }
 
     validate(must_be_present = true) {
-        console.log("Validating post: ");
-        console.log(this);
-        console.log("Strict: " + must_be_present);
+        // console.log("Validating post: ");
+        // console.log(this);
+        // console.log("Strict: " + must_be_present);
         let valid = this._validateID(must_be_present)
         & this._validateDescription(must_be_present)
         & this._validateCreatedAt(must_be_present)
@@ -117,7 +101,7 @@ class Post {
         & this._validatePhotoLink(must_be_present)
         & this._validateLikes()
         & this._validateHashtags();
-        console.log(valid);
+        //console.log(valid);
         return valid;
     }
 
