@@ -218,6 +218,7 @@ main {
     height: auto;
     background-color: #AAAAAA;
     z-index: 10;
+    overflow: auto;
 }
 
 .zoomed-photo button {

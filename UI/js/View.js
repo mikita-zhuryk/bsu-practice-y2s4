@@ -18,29 +18,42 @@ class View {
     toggleMenu() {
         let menuNode = document.querySelector(".menu");
         if (!menuNode) {
-            this.showMenu();
+            this.showMenuIfNotLogged();
+            this.showMenuIfLogged();
         }
         else {
             this.hideMenu();
         }
     }
 
-    showMenu() {
-        let menuNode = document.querySelector(".menu");
-        if (menuNode) {
-            return;
-        }
-        let body = document.querySelector("body");
-        let main = document.querySelector("main");
-        let menu;
+    showMenuIfNotLogged() {
         if (!controller.logged) {
+            let menuNode = document.querySelector(".menu");
+            if (menuNode) {
+                return;
+            }
+            let body = document.querySelector("body");
+            let main = document.querySelector("main");
+            let menu;
             menu = document.querySelector("#template-menu-guest").content.cloneNode(true);
+            console.log(menu.children);
+            body.insertBefore(menu, main);
         }
-        else {
+    }
+
+    showMenuIfLogged() {
+        if (controller.logged) {
+            let menuNode = document.querySelector(".menu");
+            if (menuNode) {
+                return;
+            }
+            let body = document.querySelector("body");
+            let main = document.querySelector("main");
+            let menu;
             menu = document.querySelector("#template-menu-user").content.cloneNode(true);
+            console.log(menu.children);
+            body.insertBefore(menu, main);
         }
-        console.log(menu.children);
-        body.insertBefore(menu, main);
     }
 
     hideMenu() {
@@ -52,7 +65,7 @@ class View {
 
     showLoggedUI() {
         let avatar = document.querySelector("#logged-user-avatar");
-        avatar.setAttribute("src", "%backend%/" + currentUser + "/avatar.png");
+        avatar.setAttribute("src", "%backend%/" + controller.currentUser + "/avatar.png");
         avatar.style.visibility = "visible";
         document.querySelector("#add-photo-button").style.visibility = "visible";
     }
@@ -112,15 +125,15 @@ class View {
         if (!controller.logged) {
             return;
         }
-        else if (!post.likes.includes(currentUser)) {
+        else if (!post.likes.includes(controller.currentUser)) {
             likeButton.firstElementChild.setAttribute("src", "img/like-button-filled.png");
             likeCounter.value = (Number(likeCounter.value) + 1).toString();
-            post.likes.push(currentUser);
+            post.likes.push(controller.currentUser);
         }
         else {
             likeButton.firstElementChild.setAttribute("src", "img/like-button.png");
             likeCounter.value = (Number(likeCounter.value) - 1).toString();
-            post.likes.splice(post.likes.findIndex((like) => { return like === currentUser; }), 1);
+            post.likes.splice(post.likes.findIndex((like) => { return like === controller.currentUser; }), 1);
         }
     }
 
@@ -128,6 +141,9 @@ class View {
         console.log(imgNode);
         let node = document.querySelector("#template-zoom").content.cloneNode(true);
         node && node.querySelectorAll("img")[1].setAttribute("src", imgNode.getAttribute("src"));
+        node && node.querySelector(".zoomed-cross").addEventListener("click", function () {
+            view.unzoomPhoto();
+        });
         console.log(node.querySelector("img"));
         document.querySelector("main").appendChild(node);
         document.querySelector("body").style.overflow = "hidden";
@@ -157,7 +173,7 @@ class View {
         posts.edit("1", new Post(
             "New description",
             undefined,
-            undefined,
+            "Kolya",
             undefined,
             ["Иннокентий Варфоломеев", ],
         ));
@@ -166,3 +182,54 @@ class View {
 };
 
 let view = new View();
+
+document.addEventListener("DOMContentLoaded", function() {
+    view.updateFeed();
+    view.test();
+    addListeners();
+});
+
+function addListeners() {
+    document.querySelector("#main-menu-button").addEventListener("click", function () {
+        view.toggleMenu();
+    });
+
+    document.querySelector("#load-button").addEventListener("click", function () {
+        view.updateFeed();
+    });
+
+    let postSearch = document.querySelector("#post-search");
+    postSearch.addEventListener("input", function () {
+        view.toggleSearchCrossButton();
+        view.search(postSearch.value);
+    });
+
+    document.querySelector("#add-photo-button").addEventListener("click", function () {
+        view.showNewPostUI();
+    });
+
+    Array.prototype.forEach.call(document.querySelectorAll(".user-button"), elem => elem.addEventListener("click", function () {
+        document.querySelector("#post-search").value = elem.lastElementChild.innerText;
+    }));
+
+    Array.prototype.forEach.call(document.querySelectorAll(".post-photo"), elem => elem.addEventListener("click", function () {
+        view.zoomPhoto(elem);
+    }));
+
+    Array.prototype.forEach.call(document.querySelectorAll(".post-date"), elem => elem.addEventListener("click", function () {
+        document.querySelector("#post-search").value = elem.innerHTML;
+    }));
+
+    Array.prototype.forEach.call(document.querySelectorAll(".like-button"), elem => elem.addEventListener("click", function () {
+        view.showMenuIfNotLogged();
+        view.updateLikeCounter(elem);
+    }));
+
+    Array.prototype.forEach.call(document.querySelectorAll(".more-button"), elem => elem.addEventListener("click", function () {
+        view.togglePostMore(elem.parentNode.parentNode.parentNode);
+    }));
+
+    Array.prototype.forEach.call(document.querySelectorAll(".hashtag-content"), elem => elem.addEventListener("click", function () {
+        document.querySelector("#post-search").value = elem.innerHTML;
+    }));
+}

@@ -63,10 +63,12 @@ class Post {
 
         let date = newNode.querySelector(".post-date");
         date.innerText = this._createdAt.toString();
-
-        //Add code to make post liked if current user is in the likes array
+        
         let likeCounter = newNode.querySelector(".like-counter");
         likeCounter.value = this._likes.length;
+        if (this.likes.includes(controller.currentUser)) {
+            newNode.querySelector("#like-button-img").setAttribute("src", "like-button-filled.png");
+        }
 
         document.getElementById("feed-main").appendChild(newNode);
         let nodes = document.querySelectorAll(".photopost");

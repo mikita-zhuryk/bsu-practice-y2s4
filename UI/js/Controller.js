@@ -1,28 +1,25 @@
-//import Post from "./Post.js";
-//import PostCollection from "./PostCollection.js";
-
 "use strict";
 
 class Controller {
 
     login(username = "Vasya", password = "123456") {
         if (password === "123456") {
-            currentUser = "Vasya";
+            this._currentUser = "Vasya";
         }
         view.showLoggedUI();
     }
 
     signOut() {
-        currentUser = "Guest";
+        this._currentUser = "Guest";
         view.hideLoggedUI();
     }
 
     get currentUser() {
-        return currentUser;
+        return this._currentUser;
     }
 
     get logged() {
-        return currentUser !== "Guest";
+        return this._currentUser !== "Guest";
     }
 
     removePhotoPost(id) {
@@ -31,9 +28,7 @@ class Controller {
 
 }
 
-let controller = new Controller();
-
-let currentUser = "Guest";
+let controller = new Controller("Guest");
 
 let photoPosts = [
     new Post("Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой, \
@@ -75,8 +70,3 @@ let photoPosts = [
 ];
 
 let posts = new PostCollection(photoPosts);
-
-document.addEventListener("DOMContentLoaded", function() {
-    view.updateFeed();
-    view.test();
-});
