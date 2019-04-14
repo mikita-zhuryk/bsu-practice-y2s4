@@ -2,9 +2,9 @@
 
 class View {
     
-    updateFeed() {
+    updateFeed(length, filter) {
         let skip = document.querySelectorAll(".photopost").length;
-        posts.getPage(skip).forEach((post) => {
+        posts.getPage(skip, length, filter).forEach((post) => {
             if (post.validate()) {
                 post.render();
             }
@@ -51,6 +51,20 @@ class View {
             let main = document.querySelector("main");
             let menu;
             menu = document.querySelector("#template-menu-user").content.cloneNode(true);
+
+            let profile = menu.querySelector(".user-profile-button");
+            profile.addEventListener("click", function () {
+                document.querySelector("#feed-main").childNodes.forEach(node => {
+                    node.remove();
+                });
+                view.updateFeed(10, new Post(
+                    undefined,
+                    undefined,
+                    controller.currentUser,
+                    undefined,
+                ));
+            });
+            
             console.log(menu.children);
             body.insertBefore(menu, main);
         }

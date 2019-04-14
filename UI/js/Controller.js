@@ -2,11 +2,18 @@
 
 class Controller {
 
+    constructor() {
+        this._currentUser = "Guest";
+    }
+
     login(username = "Vasya", password = "123456") {
         if (password === "123456") {
             this._currentUser = "Vasya";
+            view.showLoggedUI();
         }
-        view.showLoggedUI();
+        else {
+            this._currentUser = "Guest";
+        }
     }
 
     signOut() {
@@ -28,7 +35,7 @@ class Controller {
 
 }
 
-let controller = new Controller("Guest");
+let controller = new Controller();
 
 let photoPosts = [
     new Post("Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой, \
