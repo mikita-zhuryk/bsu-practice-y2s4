@@ -6,14 +6,19 @@ class Controller {
         this._currentUser = "Guest";
     }
 
-    login(username = "Vasya", password = "123456") {
-        if (password === "123456") {
-            this._currentUser = "Vasya";
+    login(username = "Vasya", password = this.passHash("123456")) {
+        if (password === this.passHash("123456")) {
+            this._currentUser = username;
             view.showLoggedUI();
         }
         else {
             this._currentUser = "Guest";
+            alert("Invalid username/password combination");
         }
+    }
+
+    passHash(pass) {
+        return pass;
     }
 
     signOut() {

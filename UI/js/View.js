@@ -25,6 +25,18 @@ class View {
     }
     
     _addMainEventListeners() {
+        document.querySelector("#main-logo-button").addEventListener("click", function () {
+            view._hideNewPostUI();
+            view._hideCommentUI();
+            view._hideSettingsUI();
+            document.querySelector("#feed-scope").innerHTML = "Feed";
+            Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
+                posts.get(node.getAttribute("id")).removeRenderedNode();
+                node.parentNode.removeChild(node);
+            });
+            view.updateFeed(10);
+        });
+
         document.querySelector("#main-menu-button").addEventListener("click", function () {
             view.toggleMenu();
         });
@@ -78,6 +90,10 @@ class View {
         Array.prototype.forEach.call(document.querySelectorAll(".hashtag-content"), elem => elem.addEventListener("click", function () {
             document.querySelector("#post-search").value = elem.innerHTML;
         }));
+
+        document.querySelector("#add-photo-button").addEventListener("click", function() {
+            view.showNewPostUI();
+        });
     }
 
     search(request) {
@@ -92,6 +108,27 @@ class View {
         }
         else {
             this.hideMenu();
+        }
+    }
+
+    togglePostMore(post) {
+        //show report
+        if (controller.currentUser === posts.get(post.getAttribute("id")).author) {
+            this._showMoreButtonContent(true);
+        }
+        else {
+            this._MoreButtonContent(false);
+        }
+    }
+
+    toggleSearchCrossButton() {
+        let crossButton = document.querySelector("#clear-post-search");
+        let searchForm = crossButton.previousElementSibling;
+        if ((crossButton.style.visibility === "visible") && (searchForm.value === "")) {
+            crossButton.style.visibility = "hidden";
+        }
+        else {
+            crossButton.style.visibility = "visible";
         }
     }
 
@@ -126,6 +163,21 @@ class View {
             this._addLoggedMenuSignOutEventListener(menu);
             body.insertBefore(menu, main);
         }
+    }
+
+    showLoggedUI() {
+        let avatar = document.querySelector("#logged-user-avatar");
+        avatar.setAttribute("src", "%backend%/" + controller.currentUser + "/avatar.png");
+        avatar.style.visibility = "visible";
+        document.querySelector("#add-photo-button").style.visibility = "visible";
+    }
+
+    showNewPostUI() {
+
+    }
+
+    _showMoreButtonContent(isAuthor) {
+
     }
 
     _addMenuGrayAreaEventListener(menu) {
@@ -181,13 +233,6 @@ class View {
         menuNode && menuNode.parentNode.removeChild(menuNode);
     }
 
-    showLoggedUI() {
-        let avatar = document.querySelector("#logged-user-avatar");
-        avatar.setAttribute("src", "%backend%/" + controller.currentUser + "/avatar.png");
-        avatar.style.visibility = "visible";
-        document.querySelector("#add-photo-button").style.visibility = "visible";
-    }
-
     hideLoggedUI() {
         let avatar = document.querySelector("#logged-user-avatar");
         avatar.setAttribute("src", "");
@@ -195,29 +240,22 @@ class View {
         document.querySelector("#add-photo-button").style.visibility = "hidden";
     }
 
-    showNewPostUI() {
+    _hideNewPostUI() {
 
     }
 
-    togglePostMore(post) {
-        //show report
-        if (controller.currentUser === posts.get(post.getAttribute("id")).author) {
-            this._showMoreButtonContent(true);
-            //show edit and remove
-        }
-        else {
-            this._showMoreButtonContent(false);
-        }
+    _hideSettingsUI() {
+
+    }
+
+    _hideCommentUI() {
+
     }
 
     appendToFeed(posts) {
         posts.forEach(post => {
             post && post.validate() && post.render();
         });
-    }
-
-    _showMoreButtonContent(isAuthor) {
-
     }
 
     removePhotoPost(post) {
@@ -273,17 +311,6 @@ class View {
         document.querySelector("header").style.visibility = "visible";
         let main = document.querySelector("main");
         main && main.removeChild(main.lastElementChild);
-    }
-
-    toggleSearchCrossButton() {
-        let crossButton = document.querySelector("#clear-post-search");
-        let searchForm = crossButton.previousElementSibling;
-        if ((crossButton.style.visibility === "visible") && (searchForm.value === "")) {
-            crossButton.style.visibility = "hidden";
-        }
-        else {
-            crossButton.style.visibility = "visible";
-        }
     }
 
 };

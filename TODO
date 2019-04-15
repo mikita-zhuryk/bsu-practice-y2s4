@@ -1,6 +1,5 @@
 Add "Add post" UI
 Add more button interface: report, edit and delete for author
-Make logo button reset app state
 Fix excessively large photo view on click
 Implement post search
 Add "Edit photopost" functionality
