@@ -41,6 +41,10 @@ class Post {
         return this._renderedNode;
     }
 
+    get hashtags() {
+        return this._hashtags;
+    }
+
     render() {
         this._template = document.querySelector("#template-post");
         let newNode = this._template.content.cloneNode(true);
@@ -74,9 +78,40 @@ class Post {
             newNode.querySelector("#like-button-img").setAttribute("src", "like-button-filled.png");
         }
 
+        this._addPostEventListeners(newNode);
         document.getElementById("feed-main").appendChild(newNode);
         let nodes = document.querySelectorAll(".photopost");
         this._renderedNode = nodes[nodes.length - 1];
+    }
+
+    _addPostEventListeners(newNode) {
+        newNode.querySelector(".user-button").addEventListener("click", function () {
+            document.querySelector("#feed-scope").innerHTML = this.lastElementChild.innerText +"'s profile";
+            view._refreshFeed(10, this.lastElementChild.innerText);
+        });
+    
+        newNode.querySelector(".post-photo").addEventListener("click", function () {
+            view.zoomPhoto(this);
+        });
+    
+        newNode.querySelector(".post-date").addEventListener("click", function () {
+            document.querySelector("#post-search").value = this.innerHTML;
+            view.search(document.querySelector("#post-search").value);
+        });
+    
+        newNode.querySelector(".like-button").addEventListener("click", function () {
+            view.showMenuIfNotLogged();
+            view.updateLikeCounter(this);
+        });
+    
+        newNode.querySelector(".more-button").addEventListener("click", function () {
+            view.togglePostMore(this.parentNode.parentNode.parentNode);
+        });
+    
+        newNode.querySelector(".hashtag-content").addEventListener("click", function () {
+            document.querySelector("#post-search").value = this.innerHTML;
+            view.search(document.querySelector("#post-search").value);
+        });
     }
 
     removeRenderedNode() {
@@ -95,7 +130,7 @@ class Post {
             if (filterConfig.createdAt && !(this._createdAt.toISOString() === filterConfig.createdAt.toISOString())) {
                 suits = false;
             }
-            if (filterConfig.hashtags && !filterConfig.hashtags.some(hashtag => { this._hashtags.includes(hashtag); })) {
+            if (filterConfig.hashtags[0] && !this._hashtags.includes(filterConfig.hashtags[0])) {
                 suits = false;
             }
         }

@@ -12,19 +12,19 @@ class View {
     updateFeed(length = 10, filter) {
         let scopeText = document.querySelector("#feed-scope").innerHTML;
         let scope = scopeText.substring(0, scopeText.indexOf("'")) || "";
-        let filterConfig = (filter) ? filter : new Post();
-        if ((scope !== "") && !filterConfig.author) {
-            filterConfig.author = scope;
+        this._filterConfig = (filter) ? filter : new Post();
+        if ((scope !== "") && !this._filterConfig.author) {
+            this._filterConfig.author = scope;
         }
         let skip = document.querySelectorAll(".photopost").length;
-        posts.getPage(skip, length, filterConfig).forEach((post) => {
+        posts.getPage(skip, length, this._filterConfig).forEach((post) => {
             if (post.validate()) {
                 post.render();
             }
         });
     }
 
-    _refreshFeed(length = 10, author) {
+    _refreshFeed(length = 10, author, hashtag) {
         Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
             posts.get(node.getAttribute("id")).removeRenderedNode();
             node.parentNode.removeChild(node);
@@ -34,6 +34,8 @@ class View {
             undefined,
             author,
             undefined,
+            undefined,
+            [hashtag],
         ));
     }
     
@@ -57,38 +59,12 @@ class View {
         let postSearch = document.querySelector("#post-search");
         postSearch.addEventListener("input", function () {
             view.toggleSearchCrossButton();
-            view.search(postSearch.value);
+            view.search(document.querySelector("#post-search").value);
         });
     
         document.querySelector("#add-photo-button").addEventListener("click", function () {
             view.showNewPostUI();
         });
-    
-        Array.prototype.forEach.call(document.querySelectorAll(".user-button"), elem => elem.addEventListener("click", function () {
-            document.querySelector("#feed-scope").innerHTML = elem.lastElementChild.innerText +"'s profile";
-            view._refreshFeed(10, elem.lastElementChild.innerText);
-        }));
-    
-        Array.prototype.forEach.call(document.querySelectorAll(".post-photo"), elem => elem.addEventListener("click", function () {
-            view.zoomPhoto(elem);
-        }));
-    
-        Array.prototype.forEach.call(document.querySelectorAll(".post-date"), elem => elem.addEventListener("click", function () {
-            document.querySelector("#post-search").value = elem.innerHTML;
-        }));
-    
-        Array.prototype.forEach.call(document.querySelectorAll(".like-button"), elem => elem.addEventListener("click", function () {
-            view.showMenuIfNotLogged();
-            view.updateLikeCounter(elem);
-        }));
-    
-        Array.prototype.forEach.call(document.querySelectorAll(".more-button"), elem => elem.addEventListener("click", function () {
-            view.togglePostMore(elem.parentNode.parentNode.parentNode);
-        }));
-    
-        Array.prototype.forEach.call(document.querySelectorAll(".hashtag-content"), elem => elem.addEventListener("click", function () {
-            document.querySelector("#post-search").value = elem.innerHTML;
-        }));
 
         document.querySelector("#add-photo-button").addEventListener("click", function() {
             view.showNewPostUI();
@@ -96,7 +72,13 @@ class View {
     }
 
     search(request) {
-        
+        let date;
+        if (request[0] === "#") {
+            this._refreshFeed(10, undefined, request.substring(1));
+        }
+        else if ((date = Date.parse(request))) {
+            this._refreshFeed(10, undefined, );
+        }
     }
 
     toggleMenu() {
