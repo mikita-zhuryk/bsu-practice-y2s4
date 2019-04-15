@@ -6,9 +6,9 @@ class Controller {
         this._currentUser = "Guest";
     }
 
-    login(username = "Vasya", password = this.passHash("123456")) {
-        if (password === this.passHash("123456")) {
-            this._currentUser = username;
+    login(username, password) {
+        if (username === "Vasya" && password === this.passHash("123456")) {
+            this._currentUser = "Vasya";
             view.showLoggedUI();
         }
         else {
