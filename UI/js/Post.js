@@ -103,9 +103,6 @@ class Post {
     }
 
     validate(must_be_present = true) {
-        // console.log("Validating post: ");
-        // console.log(this);
-        // console.log("Strict: " + must_be_present);
         let valid = this._validateID(must_be_present)
         & this._validateDescription(must_be_present)
         & this._validateCreatedAt(must_be_present)
@@ -113,7 +110,6 @@ class Post {
         & this._validatePhotoLink(must_be_present)
         & this._validateLikes()
         & this._validateHashtags();
-        //console.log(valid);
         return valid;
     }
 
