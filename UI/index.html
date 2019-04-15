@@ -60,7 +60,7 @@
             </div>
         </template>
         <template id="template-menu-guest">
-            <div class="definitely-not-menu" onclick="view.toggleMenu()"></div>
+            <div class="definitely-not-menu"></div>
             <div class="menu" id="guest-menu">
                 <div id="login-form">
                     <form name="login" target="%URL%">
@@ -68,7 +68,7 @@
                         <input type="password" id="password-input" placeholder="Password" form="login"/>
                     </form>
                     <a id="forgot-pass" href="">Forgot password?</a>
-                    <button type="submit" name="login" id="login-button" onclick="controller.login(); view.hideMenu()">Login</button>
+                    <button type="submit" name="login" id="login-button">Login</button>
                 </div>
                 <div id="menu-options">
                     <p>Want an account? <a id="sign-up" href="">Sign up</a></p>
@@ -76,7 +76,7 @@
             </div>
         </template>
         <template id="template-menu-user">
-            <div class="definitely-not-menu" onclick="view.toggleMenu()"></div>
+            <div class="definitely-not-menu"></div>
             <div class="menu" id="user-menu">
                 <button class="user-profile-button"><img id="menu-avatar" src="%back%/%currentusername%/avatar.png"/>Your profile</button>
                 <button class="user-settings-button">Settings</button>

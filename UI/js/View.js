@@ -42,7 +42,13 @@ class View {
             let main = document.querySelector("main");
             let menu;
             menu = document.querySelector("#template-menu-guest").content.cloneNode(true);
-            console.log(menu.children);
+            menu.querySelector(".definitely-not-menu").addEventListener("click", function () {
+                view.toggleMenu();
+            });
+            menu.querySelector("#login-button").addEventListener("click", function() {
+                controller.login();
+                view.hideMenu();
+            });
             body.insertBefore(menu, main);
         }
     }
@@ -57,6 +63,9 @@ class View {
             let main = document.querySelector("main");
             let menu;
             menu = document.querySelector("#template-menu-user").content.cloneNode(true);
+            menu.querySelector(".definitely-not-menu").addEventListener("click", function () {
+                view.toggleMenu();
+            });
 
             let profile = menu.querySelector(".user-profile-button");
             profile.addEventListener("click", function () {
@@ -86,8 +95,6 @@ class View {
                 controller.signOut();
                 view.toggleMenu();
             });
-            
-            console.log(menu.children);
             body.insertBefore(menu, main);
         }
     }
