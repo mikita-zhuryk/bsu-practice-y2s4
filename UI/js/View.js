@@ -1,8 +1,15 @@
 "use strict";
 
 class View {
+
+    constructor() {
+        document.addEventListener("DOMContentLoaded", function() {
+            view.updateFeed();
+            view._addMainEventListeners();
+        });
+    }
     
-    updateFeed(length, filter) {
+    updateFeed(length = 10, filter) {
         let scopeText = document.querySelector("#feed-scope").innerHTML;
         let scope = scopeText.substring(0, scopeText.indexOf("'")) || "";
         let filterConfig = (filter) ? filter : new Post();
@@ -15,6 +22,62 @@ class View {
                 post.render();
             }
         });
+    }
+    
+    _addMainEventListeners() {
+        document.querySelector("#main-menu-button").addEventListener("click", function () {
+            view.toggleMenu();
+        });
+    
+        document.querySelector("#load-button").addEventListener("click", function () {
+            view.updateFeed();
+        });
+    
+        let postSearch = document.querySelector("#post-search");
+        postSearch.addEventListener("input", function () {
+            view.toggleSearchCrossButton();
+            view.search(postSearch.value);
+        });
+    
+        document.querySelector("#add-photo-button").addEventListener("click", function () {
+            view.showNewPostUI();
+        });
+    
+        Array.prototype.forEach.call(document.querySelectorAll(".user-button"), elem => elem.addEventListener("click", function () {
+            document.querySelector("#feed-scope").innerHTML = elem.lastElementChild.innerText +"'s profile";
+            Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
+                posts.get(node.getAttribute("id")).removeRenderedNode();
+                node.parentNode.removeChild(node);
+                console.log(node);
+            });
+            view.updateFeed(10, new Post(
+                undefined,
+                undefined,
+                elem.lastElementChild.innerText,
+                undefined,
+            ));
+        }));
+    
+        Array.prototype.forEach.call(document.querySelectorAll(".post-photo"), elem => elem.addEventListener("click", function () {
+            view.zoomPhoto(elem);
+        }));
+    
+        Array.prototype.forEach.call(document.querySelectorAll(".post-date"), elem => elem.addEventListener("click", function () {
+            document.querySelector("#post-search").value = elem.innerHTML;
+        }));
+    
+        Array.prototype.forEach.call(document.querySelectorAll(".like-button"), elem => elem.addEventListener("click", function () {
+            view.showMenuIfNotLogged();
+            view.updateLikeCounter(elem);
+        }));
+    
+        Array.prototype.forEach.call(document.querySelectorAll(".more-button"), elem => elem.addEventListener("click", function () {
+            view.togglePostMore(elem.parentNode.parentNode.parentNode);
+        }));
+    
+        Array.prototype.forEach.call(document.querySelectorAll(".hashtag-content"), elem => elem.addEventListener("click", function () {
+            document.querySelector("#post-search").value = elem.innerHTML;
+        }));
     }
 
     search(request) {
@@ -42,13 +105,8 @@ class View {
             let main = document.querySelector("main");
             let menu;
             menu = document.querySelector("#template-menu-guest").content.cloneNode(true);
-            menu.querySelector(".definitely-not-menu").addEventListener("click", function () {
-                view.toggleMenu();
-            });
-            menu.querySelector("#login-button").addEventListener("click", function() {
-                controller.login();
-                view.hideMenu();
-            });
+            this._addMenuGrayAreaEventListener(menu);
+            this._addLoginButtonEventListener(menu);
             body.insertBefore(menu, main);
         }
     }
@@ -63,40 +121,57 @@ class View {
             let main = document.querySelector("main");
             let menu;
             menu = document.querySelector("#template-menu-user").content.cloneNode(true);
-            menu.querySelector(".definitely-not-menu").addEventListener("click", function () {
-                view.toggleMenu();
-            });
-
-            let profile = menu.querySelector(".user-profile-button");
-            profile.addEventListener("click", function () {
-                document.querySelector("#feed-scope").innerHTML = controller.currentUser +"'s profile";
-                Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
-                    posts.get(node.getAttribute("id")).removeRenderedNode();
-                    node.parentNode.removeChild(node);
-                    console.log(node);
-                });
-                view.updateFeed(10, new Post(
-                    undefined,
-                    undefined,
-                    controller.currentUser,
-                    undefined,
-                ));
-                view.toggleMenu();
-            });
-
-            let signOut = menu.querySelector(".log-out-button");
-            signOut.addEventListener("click", function () {
-                document.querySelector("#feed-scope").innerHTML = "Feed";
-                Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
-                    posts.get(node.getAttribute("id")).removeRenderedNode();
-                    node.parentNode.removeChild(node);
-                });
-                view.updateFeed(10);
-                controller.signOut();
-                view.toggleMenu();
-            });
+            this._addMenuGrayAreaEventListener(menu);
+            this._addLoggedMenuProfileEventListener(menu);
+            this._addLoggedMenuSignOutEventListener(menu);
             body.insertBefore(menu, main);
         }
+    }
+
+    _addMenuGrayAreaEventListener(menu) {
+        menu.querySelector(".definitely-not-menu").addEventListener("click", function () {
+            view.toggleMenu();
+        });
+    }
+
+    _addLoginButtonEventListener(menu) {
+        menu.querySelector("#login-button").addEventListener("click", function() {
+            controller.login();
+            view.hideMenu();
+        });
+    }
+
+    _addLoggedMenuProfileEventListener(menu) {
+        let profile = menu.querySelector(".user-profile-button");
+        profile.addEventListener("click", function () {
+            document.querySelector("#feed-scope").innerHTML = controller.currentUser +"'s profile";
+            Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
+                posts.get(node.getAttribute("id")).removeRenderedNode();
+                node.parentNode.removeChild(node);
+                console.log(node);
+            });
+            view.updateFeed(10, new Post(
+                undefined,
+                undefined,
+                controller.currentUser,
+                undefined,
+            ));
+            view.toggleMenu();
+        });
+    }
+
+    _addLoggedMenuSignOutEventListener(menu) {
+        let signOut = menu.querySelector(".log-out-button");
+        signOut.addEventListener("click", function () {
+            document.querySelector("#feed-scope").innerHTML = "Feed";
+            Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
+                posts.get(node.getAttribute("id")).removeRenderedNode();
+                node.parentNode.removeChild(node);
+            });
+            view.updateFeed(10);
+            controller.signOut();
+            view.toggleMenu();
+        });
     }
 
     hideMenu() {
@@ -211,80 +286,6 @@ class View {
         }
     }
 
-    test() {
-        this.removePhotoPost(document.querySelectorAll(".photopost")[8]);
-        posts.edit("1", new Post(
-            "New description",
-            undefined,
-            "Kolya",
-            undefined,
-            ["Иннокентий Варфоломеев", ],
-        ));
-    }
-
 };
 
 let view = new View();
-
-document.addEventListener("DOMContentLoaded", function() {
-    view.updateFeed();
-    view.test();
-    addListeners();
-});
-
-function addListeners() {
-    document.querySelector("#main-menu-button").addEventListener("click", function () {
-        view.toggleMenu();
-    });
-
-    document.querySelector("#load-button").addEventListener("click", function () {
-        view.updateFeed();
-    });
-
-    let postSearch = document.querySelector("#post-search");
-    postSearch.addEventListener("input", function () {
-        view.toggleSearchCrossButton();
-        view.search(postSearch.value);
-    });
-
-    document.querySelector("#add-photo-button").addEventListener("click", function () {
-        view.showNewPostUI();
-    });
-
-    Array.prototype.forEach.call(document.querySelectorAll(".user-button"), elem => elem.addEventListener("click", function () {
-        //document.querySelector("#post-search").value = elem.lastElementChild.innerText;
-        document.querySelector("#feed-scope").innerHTML = elem.lastElementChild.innerText +"'s profile";
-        Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
-            posts.get(node.getAttribute("id")).removeRenderedNode();
-            node.parentNode.removeChild(node);
-            console.log(node);
-        });
-        view.updateFeed(10, new Post(
-            undefined,
-            undefined,
-            elem.lastElementChild.innerText,
-            undefined,
-        ));
-    }));
-
-    Array.prototype.forEach.call(document.querySelectorAll(".post-photo"), elem => elem.addEventListener("click", function () {
-        view.zoomPhoto(elem);
-    }));
-
-    Array.prototype.forEach.call(document.querySelectorAll(".post-date"), elem => elem.addEventListener("click", function () {
-        document.querySelector("#post-search").value = elem.innerHTML;
-    }));
-
-    Array.prototype.forEach.call(document.querySelectorAll(".like-button"), elem => elem.addEventListener("click", function () {
-        view.showMenuIfNotLogged();
-        view.updateLikeCounter(elem);
-    }));
-
-    Array.prototype.forEach.call(document.querySelectorAll(".more-button"), elem => elem.addEventListener("click", function () {
-        view.togglePostMore(elem.parentNode.parentNode.parentNode);
-    }));
-
-    Array.prototype.forEach.call(document.querySelectorAll(".hashtag-content"), elem => elem.addEventListener("click", function () {
-        document.querySelector("#post-search").value = elem.innerHTML;
-    }));
-}
