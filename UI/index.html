@@ -16,29 +16,29 @@
         <template id="template-post">
             <div class="photopost">
                 <div class="user-handle">
-                    <button class="user-button" onclick="document.getElementById('post-search').value = this.lastElementChild.innerText">
+                    <button class="user-button">
                         <img class="user-avatar" src="%back%/%username%/avatar.png"/>
                         <h4 class="username">DEFAULT_USERNAME</h4>
                     </button>
                 </div>
                 <div class="photo-container">
-                    <img class="post-photo" src="DEFAULT_LINK" onclick="view.zoomPhoto(this)"/>
+                    <img class="post-photo" src="DEFAULT_LINK"/>
                 </div>
                 <div class="post-info">
                     <p class="post-text">DEFAULT_DESCRIPTION</p>
-                    <p class="post-date" onclick="document.getElementById('post-search').value = this.innerHTML">DEFAULT_DATE</p>
+                    <p class="post-date">DEFAULT_DATE</p>
                     <ul class="post-hashtags"></ul>
                 </div>
                 <div class="post-footer">
                     <div class="post-footer-buttons">
-                        <button class="like-button" onclick="view.showMenu(); view.updateLikeCounter(this)">
+                        <button class="like-button">
                             <img class="like-button-img" src="img/like-button.png"/>
                         </button>
                         <input type="number" readonly="readonly" class="like-counter" value="0"/>
                         <button class="comment-button">
                             <p>Comment</p>
                         </button>
-                        <button class="more-button" onclick="view.togglePostMore(this.parentNode.parentNode.parentNode)">
+                        <button class="more-button">
                             <img class="more-button-img" src="img/more-button.png"/>
                         </button>
                     </div>
@@ -47,7 +47,7 @@
         </template>
         <template id="template-hashtag">
             <li class="hashtag">
-                <a onclick="document.getElementById('post-search').value = this.innerHTML"></a>
+                <a class="hashtag-content"></a>
             </li>
         </template>
         <template id="template-comment">
@@ -55,25 +55,41 @@
         </template>
         <template id="template-zoom">
             <div class="zoomed-photo">
-                <button onclick="view.unzoomPhoto()"><img src="img/cross.png"/></button>
+                <button class="zoomed-cross"><img src="img/cross.png"/></button>
                 <img src="DEFAULT_LINK"/>
             </div>
         </template>
         <template id="template-menu-guest">
-            <div class="definitely-not-menu" onclick="view.toggleMenu()"></div>
-            <div class="menu" id="menu">
-                <form name="login" target="%URL%">
-                    <input type="text" id="username-input" placeholder="Username" form="login"/>
-                    <input type="password" id="password-input" placeholder="Password" form="login"/>
-                </form>
-                <button type="submit" name="login" onclick="controller.login(); view.hideMenu()">Login</button>
+            <div class="definitely-not-menu"></div>
+            <div class="menu" id="guest-menu">
+                <div id="login-form">
+                    <form name="login" target="%URL%">
+                        <input type="text" id="username-input" placeholder="Username" form="login"/>
+                        <input type="password" id="password-input" placeholder="Password" form="login"/>
+                    </form>
+                    <button id="forgot-pass">Forgot password?</button>
+                    <button type="submit" form="login" id="login-button">Login</button>
+                </div>
+                <div id="menu-options">
+                    <p>Want an account? <a id="sign-up" href="">Sign up</a></p>
+                </div>
             </div>
         </template>
         <template id="template-menu-user">
-            <div class="definitely-not-menu" onclick="view.toggleMenu()"></div>
-            <div class="menu" id="menu">
-                <button class="log-out-button" onclick="controller.signOut(); view.hideMenu();">Sign out</button>
+            <div class="definitely-not-menu"></div>
+            <div class="menu" id="user-menu">
+                <button class="user-profile-button"><img id="menu-avatar" src="%back%/%currentusername%/avatar.png"/>Your profile</button>
+                <button class="user-settings-button">Settings</button>
+                <button class="user-contact-button">Contact us</button>
+                <button class="log-out-button">Sign out</button>
             </div>
+        </template>
+        <template id="template-forgot-password">
+            <p>Please enter your account username</p>
+            <form name="recovery" target="%RECOVERY_URL%">
+                <input type="text" id="recovery-username-form" placeholder="Username" form="recovery"/> 
+            </form>
+            <button type="submit" id="recovery-submit-button" form="recovery">Submit</button>
         </template>
 
         <header>
@@ -85,7 +101,7 @@
                 <button id="logged-user-avatar">
                     <img src="%back%/%logged-username%/avatar.png"/>
                 </button>
-                <button id="main-menu-button" onclick="view.toggleMenu()">
+                <button id="main-menu-button">
                     <img src="img/three-bars.png"/>
                 </button>
             </div>
@@ -93,16 +109,17 @@
         <main>
             <div class="feed" id="photofeed">
                 <div id="feed-head">
-                    <input type="text" id="post-search" placeholder="Search..." oninput="view.toggleSearchCrossButton(); view.search(this.value);"/>
+                    <p id="feed-scope">Feed</p>
+                    <input type="text" id="post-search" placeholder="Search..."/>
                     <button id="clear-post-search" style="visibility: hidden" onclick="this.previousElementSibling.value = ''; view.toggleSearchCrossButton()">
                         <img src="img/cross.png"/>
                     </button>
-                    <button id="add-photo-button" onclick="view.showNewPostUI()">+</button>
+                    <button id="add-photo-button">+</button>
                 </div>
                 <div id="feed-main">
                 </div>
                 <button id="load-button">
-                    <img id="load-button-img" src="img/load-button.png" alt="Load more posts" onclick="view.updateFeed()"/>
+                    <img id="load-button-img" src="img/load-button.png" alt="Load more posts"/>
                 </button>
 
             </div>

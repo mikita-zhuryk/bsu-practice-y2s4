@@ -29,6 +29,10 @@ class Post {
         return this._author;
     }
 
+    set author(newAuthor) {
+        this._author = newAuthor;
+    }
+
     get likes() {
         return this._likes;
     }
@@ -63,14 +67,20 @@ class Post {
 
         let date = newNode.querySelector(".post-date");
         date.innerText = this._createdAt.toString();
-
-        //Add code to make post liked if current user is in the likes array
+        
         let likeCounter = newNode.querySelector(".like-counter");
         likeCounter.value = this._likes.length;
+        if (this.likes.includes(controller.currentUser)) {
+            newNode.querySelector("#like-button-img").setAttribute("src", "like-button-filled.png");
+        }
 
         document.getElementById("feed-main").appendChild(newNode);
         let nodes = document.querySelectorAll(".photopost");
         this._renderedNode = nodes[nodes.length - 1];
+    }
+
+    removeRenderedNode() {
+        this._renderedNode = null;
     }
 
     filter(filterConfig) {
@@ -93,9 +103,6 @@ class Post {
     }
 
     validate(must_be_present = true) {
-        // console.log("Validating post: ");
-        // console.log(this);
-        // console.log("Strict: " + must_be_present);
         let valid = this._validateID(must_be_present)
         & this._validateDescription(must_be_present)
         & this._validateCreatedAt(must_be_present)
@@ -103,7 +110,6 @@ class Post {
         & this._validatePhotoLink(must_be_present)
         & this._validateLikes()
         & this._validateHashtags();
-        //console.log(valid);
         return valid;
     }
 
