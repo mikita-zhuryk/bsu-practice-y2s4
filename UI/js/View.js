@@ -23,6 +23,19 @@ class View {
             }
         });
     }
+
+    _refreshFeed(length = 10, author) {
+        Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
+            posts.get(node.getAttribute("id")).removeRenderedNode();
+            node.parentNode.removeChild(node);
+        });
+        view.updateFeed(length, new Post(
+            undefined,
+            undefined,
+            author,
+            undefined,
+        ));
+    }
     
     _addMainEventListeners() {
         document.querySelector("#main-logo-button").addEventListener("click", function () {
@@ -30,11 +43,7 @@ class View {
             view._hideCommentUI();
             view._hideSettingsUI();
             document.querySelector("#feed-scope").innerHTML = "Feed";
-            Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
-                posts.get(node.getAttribute("id")).removeRenderedNode();
-                node.parentNode.removeChild(node);
-            });
-            view.updateFeed(10);
+            view._refreshFeed();
         });
 
         document.querySelector("#main-menu-button").addEventListener("click", function () {
@@ -57,17 +66,7 @@ class View {
     
         Array.prototype.forEach.call(document.querySelectorAll(".user-button"), elem => elem.addEventListener("click", function () {
             document.querySelector("#feed-scope").innerHTML = elem.lastElementChild.innerText +"'s profile";
-            Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
-                posts.get(node.getAttribute("id")).removeRenderedNode();
-                node.parentNode.removeChild(node);
-                console.log(node);
-            });
-            view.updateFeed(10, new Post(
-                undefined,
-                undefined,
-                elem.lastElementChild.innerText,
-                undefined,
-            ));
+            view._refreshFeed(10, elem.lastElementChild.innerText);
         }));
     
         Array.prototype.forEach.call(document.querySelectorAll(".post-photo"), elem => elem.addEventListener("click", function () {
@@ -144,6 +143,7 @@ class View {
             menu = document.querySelector("#template-menu-guest").content.cloneNode(true);
             this._addMenuGrayAreaEventListener(menu);
             this._addLoginButtonEventListener(menu);
+            this._addForgotPassEventListener(menu);
             body.insertBefore(menu, main);
         }
     }
@@ -167,7 +167,7 @@ class View {
 
     showLoggedUI() {
         let avatar = document.querySelector("#logged-user-avatar");
-        avatar.setAttribute("src", "%backend%/" + controller.currentUser + "/avatar.png");
+        avatar.setAttribute("src", "back/users/" + controller.currentUser + "/avatar.png");
         avatar.style.visibility = "visible";
         document.querySelector("#add-photo-button").style.visibility = "visible";
     }
@@ -193,21 +193,29 @@ class View {
         });
     }
 
+    _addForgotPassEventListener(menu) {
+        menu.querySelector("#forgot-pass").addEventListener("click", function() {
+            let template = document.querySelector("#template-forgot-password");
+            let forgotForm = template.content.cloneNode(true);
+            let menuNode = document.querySelector("#guest-menu");
+            console.log(menuNode.children);
+            Array.prototype.forEach.call(menuNode.children, node => {
+                node.parentNode.removeChild(node);
+            });
+            forgotForm.querySelector("#recovery-submit-button").addEventListener("click", function() {
+                //do this only if user with entered username exists
+                view.toggleMenu();
+                alert("Success!");
+            });
+            menuNode.appendChild(forgotForm);
+        });
+    }
+
     _addLoggedMenuProfileEventListener(menu) {
         let profile = menu.querySelector(".user-profile-button");
         profile.addEventListener("click", function () {
             document.querySelector("#feed-scope").innerHTML = controller.currentUser +"'s profile";
-            Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
-                posts.get(node.getAttribute("id")).removeRenderedNode();
-                node.parentNode.removeChild(node);
-                console.log(node);
-            });
-            view.updateFeed(10, new Post(
-                undefined,
-                undefined,
-                controller.currentUser,
-                undefined,
-            ));
+            view._refreshFeed(10, controller.currentUser);
             view.toggleMenu();
         });
     }
@@ -216,11 +224,7 @@ class View {
         let signOut = menu.querySelector(".log-out-button");
         signOut.addEventListener("click", function () {
             document.querySelector("#feed-scope").innerHTML = "Feed";
-            Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
-                posts.get(node.getAttribute("id")).removeRenderedNode();
-                node.parentNode.removeChild(node);
-            });
-            view.updateFeed(10);
+            view._refreshFeed();
             controller.signOut();
             view.toggleMenu();
         });

@@ -67,8 +67,8 @@
                         <input type="text" id="username-input" placeholder="Username" form="login"/>
                         <input type="password" id="password-input" placeholder="Password" form="login"/>
                     </form>
-                    <a id="forgot-pass" href="">Forgot password?</a>
-                    <button type="submit" name="login" id="login-button">Login</button>
+                    <button id="forgot-pass">Forgot password?</button>
+                    <button type="submit" form="login" id="login-button">Login</button>
                 </div>
                 <div id="menu-options">
                     <p>Want an account? <a id="sign-up" href="">Sign up</a></p>
@@ -83,6 +83,13 @@
                 <button class="user-contact-button">Contact us</button>
                 <button class="log-out-button">Sign out</button>
             </div>
+        </template>
+        <template id="template-forgot-password">
+            <p>Please enter your account username</p>
+            <form name="recovery" target="%RECOVERY_URL%">
+                <input type="text" id="recovery-username-form" placeholder="Username" form="recovery"/> 
+            </form>
+            <button type="submit" id="recovery-submit-button" form="recovery">Submit</button>
         </template>
 
         <header>

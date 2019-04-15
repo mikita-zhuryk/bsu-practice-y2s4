@@ -8,3 +8,4 @@ Make "Forgot password?" work
 Create a form for signing up
 Add comments interface
 Move photoposts to local DB from controller
+Add default user avatar
