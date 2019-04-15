@@ -61,28 +61,27 @@
         </template>
         <template id="template-menu-guest">
             <div class="definitely-not-menu" onclick="view.toggleMenu()"></div>
-            <div class="menu" id="menu">
+            <div class="menu" id="guest-menu">
                 <div id="login-form">
                     <form name="login" target="%URL%">
                         <input type="text" id="username-input" placeholder="Username" form="login"/>
                         <input type="password" id="password-input" placeholder="Password" form="login"/>
                     </form>
-                    <button id="forgot-pass-button">Forgot password?</button>
-                    <button type="submit" name="login" onclick="controller.login(); view.hideMenu()">Login</button>
+                    <a id="forgot-pass" href="">Forgot password?</a>
+                    <button type="submit" name="login" id="login-button" onclick="controller.login(); view.hideMenu()">Login</button>
                 </div>
                 <div id="menu-options">
-                    <p>Want an account?</p>
-                    <button id="sign-up-button">Sign up</button>
+                    <p>Want an account? <a id="sign-up" href="">Sign up</a></p>
                 </div>
             </div>
         </template>
         <template id="template-menu-user">
             <div class="definitely-not-menu" onclick="view.toggleMenu()"></div>
-            <div class="menu" id="menu">
+            <div class="menu" id="user-menu">
                 <button class="user-profile-button"><img id="menu-avatar" src="%back%/%currentusername%/avatar.png"/>Your profile</button>
                 <button class="user-settings-button">Settings</button>
                 <button class="user-contact-button">Contact us</button>
-                <button class="log-out-button" onclick="controller.signOut(); view.hideMenu();">Sign out</button>
+                <button class="log-out-button">Sign out</button>
             </div>
         </template>
 
@@ -103,6 +102,7 @@
         <main>
             <div class="feed" id="photofeed">
                 <div id="feed-head">
+                    <p id="feed-scope">Feed</p>
                     <input type="text" id="post-search" placeholder="Search..."/>
                     <button id="clear-post-search" style="visibility: hidden" onclick="this.previousElementSibling.value = ''; view.toggleSearchCrossButton()">
                         <img src="img/cross.png"/>
