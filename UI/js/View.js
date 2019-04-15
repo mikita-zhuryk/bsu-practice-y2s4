@@ -12,19 +12,19 @@ class View {
     updateFeed(length = 10, filter) {
         let scopeText = document.querySelector("#feed-scope").innerHTML;
         let scope = scopeText.substring(0, scopeText.indexOf("'")) || "";
-        let filterConfig = (filter) ? filter : new Post();
-        if ((scope !== "") && !filterConfig.author) {
-            filterConfig.author = scope;
+        this._filterConfig = (filter) ? filter : new Post();
+        if ((scope !== "") && !this._filterConfig.author) {
+            this._filterConfig.author = scope;
         }
         let skip = document.querySelectorAll(".photopost").length;
-        posts.getPage(skip, length, filterConfig).forEach((post) => {
+        posts.getPage(skip, length, this._filterConfig).forEach((post) => {
             if (post.validate()) {
                 post.render();
             }
         });
     }
 
-    _refreshFeed(length = 10, author) {
+    _refreshFeed(length = 10, author, hashtag) {
         Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
             posts.get(node.getAttribute("id")).removeRenderedNode();
             node.parentNode.removeChild(node);
@@ -34,6 +34,8 @@ class View {
             undefined,
             author,
             undefined,
+            undefined,
+            [hashtag],
         ));
     }
     
@@ -57,38 +59,12 @@ class View {
         let postSearch = document.querySelector("#post-search");
         postSearch.addEventListener("input", function () {
             view.toggleSearchCrossButton();
-            view.search(postSearch.value);
+            view.search(document.querySelector("#post-search").value);
         });
     
         document.querySelector("#add-photo-button").addEventListener("click", function () {
             view.showNewPostUI();
         });
-    
-        Array.prototype.forEach.call(document.querySelectorAll(".user-button"), elem => elem.addEventListener("click", function () {
-            document.querySelector("#feed-scope").innerHTML = elem.lastElementChild.innerText +"'s profile";
-            view._refreshFeed(10, elem.lastElementChild.innerText);
-        }));
-    
-        Array.prototype.forEach.call(document.querySelectorAll(".post-photo"), elem => elem.addEventListener("click", function () {
-            view.zoomPhoto(elem);
-        }));
-    
-        Array.prototype.forEach.call(document.querySelectorAll(".post-date"), elem => elem.addEventListener("click", function () {
-            document.querySelector("#post-search").value = elem.innerHTML;
-        }));
-    
-        Array.prototype.forEach.call(document.querySelectorAll(".like-button"), elem => elem.addEventListener("click", function () {
-            view.showMenuIfNotLogged();
-            view.updateLikeCounter(elem);
-        }));
-    
-        Array.prototype.forEach.call(document.querySelectorAll(".more-button"), elem => elem.addEventListener("click", function () {
-            view.togglePostMore(elem.parentNode.parentNode.parentNode);
-        }));
-    
-        Array.prototype.forEach.call(document.querySelectorAll(".hashtag-content"), elem => elem.addEventListener("click", function () {
-            document.querySelector("#post-search").value = elem.innerHTML;
-        }));
 
         document.querySelector("#add-photo-button").addEventListener("click", function() {
             view.showNewPostUI();
@@ -96,7 +72,13 @@ class View {
     }
 
     search(request) {
-        
+        let date;
+        if (request[0] === "#") {
+            this._refreshFeed(10, undefined, request.substring(1));
+        }
+        else if ((date = Date.parse(request))) {
+            this._refreshFeed(10, undefined, );
+        }
     }
 
     toggleMenu() {
@@ -141,10 +123,10 @@ class View {
             let main = document.querySelector("main");
             let menu;
             menu = document.querySelector("#template-menu-guest").content.cloneNode(true);
-            this._addMenuGrayAreaEventListener(menu);
-            this._addLoginButtonEventListener(menu);
-            this._addForgotPassEventListener(menu);
             body.insertBefore(menu, main);
+            this._addMenuGrayAreaEventListener();
+            this._addLoginButtonEventListener();
+            this._addForgotPassEventListener();
         }
     }
 
@@ -158,16 +140,18 @@ class View {
             let main = document.querySelector("main");
             let menu;
             menu = document.querySelector("#template-menu-user").content.cloneNode(true);
-            this._addMenuGrayAreaEventListener(menu);
-            this._addLoggedMenuProfileEventListener(menu);
-            this._addLoggedMenuSignOutEventListener(menu);
+            let menuAvatar = menu.querySelector("#menu-avatar");
+            menuAvatar.setAttribute("src", "../back/users/" + controller.currentUser + "/avatar.png");
             body.insertBefore(menu, main);
+            this._addMenuGrayAreaEventListener();
+            this._addLoggedMenuProfileEventListener();
+            this._addLoggedMenuSignOutEventListener();
         }
     }
 
     showLoggedUI() {
         let avatar = document.querySelector("#logged-user-avatar");
-        avatar.setAttribute("src", "back/users/" + controller.currentUser + "/avatar.png");
+        avatar.firstElementChild.setAttribute("src", "../back/users/" + controller.currentUser + "/avatar.png");
         avatar.style.visibility = "visible";
         document.querySelector("#add-photo-button").style.visibility = "visible";
     }
@@ -180,20 +164,25 @@ class View {
 
     }
 
-    _addMenuGrayAreaEventListener(menu) {
-        menu.querySelector(".definitely-not-menu").addEventListener("click", function () {
+    _addMenuGrayAreaEventListener() {
+        let menu = document.querySelector(".menu");
+        document.querySelector(".definitely-not-menu").addEventListener("click", function () {
             view.toggleMenu();
         });
     }
 
-    _addLoginButtonEventListener(menu) {
+    _addLoginButtonEventListener() {
+        let menu = document.querySelector("#guest-menu");
         menu.querySelector("#login-button").addEventListener("click", function() {
-            controller.login();
+            let username = menu.querySelector("#username-input").value;
+            let pass = view._passHash(menu.querySelector("#password-input").value);
+            controller.login(username, pass);
             view.hideMenu();
         });
     }
 
-    _addForgotPassEventListener(menu) {
+    _addForgotPassEventListener() {
+        let menu = document.querySelector("#guest-menu");
         menu.querySelector("#forgot-pass").addEventListener("click", function() {
             let template = document.querySelector("#template-forgot-password");
             let forgotForm = template.content.cloneNode(true);
@@ -211,7 +200,8 @@ class View {
         });
     }
 
-    _addLoggedMenuProfileEventListener(menu) {
+    _addLoggedMenuProfileEventListener() {
+        let menu = document.querySelector("#user-menu");
         let profile = menu.querySelector(".user-profile-button");
         profile.addEventListener("click", function () {
             document.querySelector("#feed-scope").innerHTML = controller.currentUser +"'s profile";
@@ -220,7 +210,8 @@ class View {
         });
     }
 
-    _addLoggedMenuSignOutEventListener(menu) {
+    _addLoggedMenuSignOutEventListener() {
+        let menu = document.querySelector("#user-menu");
         let signOut = menu.querySelector(".log-out-button");
         signOut.addEventListener("click", function () {
             document.querySelector("#feed-scope").innerHTML = "Feed";
@@ -315,6 +306,10 @@ class View {
         document.querySelector("header").style.visibility = "visible";
         let main = document.querySelector("main");
         main && main.removeChild(main.lastElementChild);
+    }
+
+    _passHash(pass) {
+        return pass;
     }
 
 };
