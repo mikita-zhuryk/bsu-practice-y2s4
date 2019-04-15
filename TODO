@@ -1,2 +1,11 @@
-3. Add "Add post" UI
-5. Add more button interface: report, edit and delete for author
+Add "Add post" UI
+Add more button interface: report, edit and delete for author
+Make logo button reset app state
+Fix excessively large photo view on click
+Implement post search
+Add "Edit photopost" functionality
+Add real user credentials check
+Make "Forgot password?" work
+Create a form for signing up
+Add comments interface
+Move photoposts to local DB from controller
