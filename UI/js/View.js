@@ -141,10 +141,10 @@ class View {
             let main = document.querySelector("main");
             let menu;
             menu = document.querySelector("#template-menu-guest").content.cloneNode(true);
-            this._addMenuGrayAreaEventListener(menu);
-            this._addLoginButtonEventListener(menu);
-            this._addForgotPassEventListener(menu);
             body.insertBefore(menu, main);
+            this._addMenuGrayAreaEventListener();
+            this._addLoginButtonEventListener();
+            this._addForgotPassEventListener();
         }
     }
 
@@ -158,16 +158,18 @@ class View {
             let main = document.querySelector("main");
             let menu;
             menu = document.querySelector("#template-menu-user").content.cloneNode(true);
-            this._addMenuGrayAreaEventListener(menu);
-            this._addLoggedMenuProfileEventListener(menu);
-            this._addLoggedMenuSignOutEventListener(menu);
+            let menuAvatar = menu.querySelector("#menu-avatar");
+            menuAvatar.setAttribute("src", "../back/users/" + controller.currentUser + "/avatar.png");
             body.insertBefore(menu, main);
+            this._addMenuGrayAreaEventListener();
+            this._addLoggedMenuProfileEventListener();
+            this._addLoggedMenuSignOutEventListener();
         }
     }
 
     showLoggedUI() {
         let avatar = document.querySelector("#logged-user-avatar");
-        avatar.setAttribute("src", "back/users/" + controller.currentUser + "/avatar.png");
+        avatar.firstElementChild.setAttribute("src", "../back/users/" + controller.currentUser + "/avatar.png");
         avatar.style.visibility = "visible";
         document.querySelector("#add-photo-button").style.visibility = "visible";
     }
@@ -180,20 +182,25 @@ class View {
 
     }
 
-    _addMenuGrayAreaEventListener(menu) {
-        menu.querySelector(".definitely-not-menu").addEventListener("click", function () {
+    _addMenuGrayAreaEventListener() {
+        let menu = document.querySelector(".menu");
+        document.querySelector(".definitely-not-menu").addEventListener("click", function () {
             view.toggleMenu();
         });
     }
 
-    _addLoginButtonEventListener(menu) {
+    _addLoginButtonEventListener() {
+        let menu = document.querySelector("#guest-menu");
         menu.querySelector("#login-button").addEventListener("click", function() {
-            controller.login();
+            let username = menu.querySelector("#username-input").value;
+            let pass = view._passHash(menu.querySelector("#password-input").value);
+            controller.login(username, pass);
             view.hideMenu();
         });
     }
 
-    _addForgotPassEventListener(menu) {
+    _addForgotPassEventListener() {
+        let menu = document.querySelector("#guest-menu");
         menu.querySelector("#forgot-pass").addEventListener("click", function() {
             let template = document.querySelector("#template-forgot-password");
             let forgotForm = template.content.cloneNode(true);
@@ -211,7 +218,8 @@ class View {
         });
     }
 
-    _addLoggedMenuProfileEventListener(menu) {
+    _addLoggedMenuProfileEventListener() {
+        let menu = document.querySelector("#user-menu");
         let profile = menu.querySelector(".user-profile-button");
         profile.addEventListener("click", function () {
             document.querySelector("#feed-scope").innerHTML = controller.currentUser +"'s profile";
@@ -220,7 +228,8 @@ class View {
         });
     }
 
-    _addLoggedMenuSignOutEventListener(menu) {
+    _addLoggedMenuSignOutEventListener() {
+        let menu = document.querySelector("#user-menu");
         let signOut = menu.querySelector(".log-out-button");
         signOut.addEventListener("click", function () {
             document.querySelector("#feed-scope").innerHTML = "Feed";
@@ -315,6 +324,10 @@ class View {
         document.querySelector("header").style.visibility = "visible";
         let main = document.querySelector("main");
         main && main.removeChild(main.lastElementChild);
+    }
+
+    _passHash(pass) {
+        return pass;
     }
 
 };

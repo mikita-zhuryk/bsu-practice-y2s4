@@ -47,7 +47,7 @@ class Post {
         newNode.querySelector("div").setAttribute("id", this._id);
 
         let avatar = newNode.querySelector(".user-avatar");
-        avatar.setAttribute("src", "%backend%/" + this._author + "/avatar.png");
+        avatar.setAttribute("src", "../back/users/" + this._author + "/avatar.png");
         let author = newNode.querySelector(".username");
         author.innerHTML = this._author;
 
