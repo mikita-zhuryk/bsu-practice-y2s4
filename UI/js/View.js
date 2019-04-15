@@ -3,8 +3,14 @@
 class View {
     
     updateFeed(length, filter) {
+        let scopeText = document.querySelector("#feed-scope").innerHTML;
+        let scope = scopeText.substring(0, scopeText.indexOf("'")) || "";
+        let filterConfig = (filter) ? filter : new Post();
+        if ((scope !== "") && !filterConfig.author) {
+            filterConfig.author = scope;
+        }
         let skip = document.querySelectorAll(".photopost").length;
-        posts.getPage(skip, length, filter).forEach((post) => {
+        posts.getPage(skip, length, filterConfig).forEach((post) => {
             if (post.validate()) {
                 post.render();
             }
@@ -54,8 +60,11 @@ class View {
 
             let profile = menu.querySelector(".user-profile-button");
             profile.addEventListener("click", function () {
-                document.querySelector("#feed-main").childNodes.forEach(node => {
-                    node.remove();
+                document.querySelector("#feed-scope").innerHTML = controller.currentUser +"'s profile";
+                Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
+                    posts.get(node.getAttribute("id")).removeRenderedNode();
+                    node.parentNode.removeChild(node);
+                    console.log(node);
                 });
                 view.updateFeed(10, new Post(
                     undefined,
@@ -63,6 +72,19 @@ class View {
                     controller.currentUser,
                     undefined,
                 ));
+                view.toggleMenu();
+            });
+
+            let signOut = menu.querySelector(".log-out-button");
+            signOut.addEventListener("click", function () {
+                document.querySelector("#feed-scope").innerHTML = "Feed";
+                Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
+                    posts.get(node.getAttribute("id")).removeRenderedNode();
+                    node.parentNode.removeChild(node);
+                });
+                view.updateFeed(10);
+                controller.signOut();
+                view.toggleMenu();
             });
             
             console.log(menu.children);
@@ -223,7 +245,19 @@ function addListeners() {
     });
 
     Array.prototype.forEach.call(document.querySelectorAll(".user-button"), elem => elem.addEventListener("click", function () {
-        document.querySelector("#post-search").value = elem.lastElementChild.innerText;
+        //document.querySelector("#post-search").value = elem.lastElementChild.innerText;
+        document.querySelector("#feed-scope").innerHTML = elem.lastElementChild.innerText +"'s profile";
+        Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
+            posts.get(node.getAttribute("id")).removeRenderedNode();
+            node.parentNode.removeChild(node);
+            console.log(node);
+        });
+        view.updateFeed(10, new Post(
+            undefined,
+            undefined,
+            elem.lastElementChild.innerText,
+            undefined,
+        ));
     }));
 
     Array.prototype.forEach.call(document.querySelectorAll(".post-photo"), elem => elem.addEventListener("click", function () {
