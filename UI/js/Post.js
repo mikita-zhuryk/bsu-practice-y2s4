@@ -29,6 +29,10 @@ class Post {
         return this._author;
     }
 
+    set author(newAuthor) {
+        this._author = newAuthor;
+    }
+
     get likes() {
         return this._likes;
     }
@@ -73,6 +77,10 @@ class Post {
         document.getElementById("feed-main").appendChild(newNode);
         let nodes = document.querySelectorAll(".photopost");
         this._renderedNode = nodes[nodes.length - 1];
+    }
+
+    removeRenderedNode() {
+        this._renderedNode = null;
     }
 
     filter(filterConfig) {
