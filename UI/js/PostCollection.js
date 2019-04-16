@@ -7,15 +7,19 @@ class PostCollection {
         this._totalPosts = 0;
         posts.forEach(post => {
             if (post.validate()) {
-                post._id = Math.random().toString(36).replace(/[^a-z]+/g, "");
-                while (!this._photoPosts.findIndex((v) => {
-                    return v.id == post._id;
-                })) {
-                    post._id = Math.random().toString(36).replace(/[^a-z]+/g, "");
-                }
+                this._dispatchID(post);
                 this._photoPosts.push(post);
             }
         });
+    }
+
+    _dispatchID(post) {
+        post._id = Math.random().toString(36).replace(/[^a-z]+/g, "");
+        while (!this._photoPosts.findIndex((v) => {
+            return v.id == post._id;
+        })) {
+            post._id = Math.random().toString(36).replace(/[^a-z]+/g, "");
+        }
     }
 
     get length() {
@@ -45,25 +49,31 @@ class PostCollection {
 
     getPage(skip = 0, length = 10, filterConfig) {
         let count = 0;
-        let i = (skip >= 0) ? skip : 0;
+        let i = 0;
         let result = [];
         while ((i < this._photoPosts.length) && (count < length)) {
             if (this._photoPosts[i] && this._photoPosts[i].filter(filterConfig)) {
-                result.push(this._photoPosts[i]);
-                ++count;
+                if (skip > 0) {
+                    skip--;
+                }
+                else {
+                    result.push(this._photoPosts[i]);
+                    ++count;
+                }
             }
             ++i;
         }
         result.sort((a, b) => {
-            return a.createdAt.getTime() - b.createdAt.getTime();
+            return b.createdAt.getTime() - a.createdAt.getTime();
         });
-        console.log("Filtered %d posts starting from %d post", length, skip);
         return result;
     }
 
     pushFront(post) {
         if (post && post.validate()) {
-            this._photoPosts = this._photoPosts.reverse().push(post).reverse();
+            this._dispatchID(post);
+            this._photoPosts.reverse().push(post);
+            this._photoPosts.reverse();
             return true;
         }
         console.log("Added post %s to the front of photoPosts", post);
@@ -72,6 +82,7 @@ class PostCollection {
 
     pushBack(post) {
         if (post && post.validate()) {
+            this._dispatchID(post);
             this._photoPosts.push(post);
             return true;
         }
@@ -86,7 +97,6 @@ class PostCollection {
     }
 
     get(id) {
-        console.log("Found post with id " + id);
         return this._photoPosts[this._findIndexByID(id)];
     }
     

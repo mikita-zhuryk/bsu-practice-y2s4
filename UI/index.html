@@ -5,7 +5,9 @@
         <title>Insta-Like</title>
         <link rel="shortcut icon" type="image/x-icon" href="img/logo32.png" />
         <meta charset="utf-8"/>
-        <link href="styles.css" type="text/css" rel="stylesheet"/>
+        <link href="css/control.css" type="text/css" rel="stylesheet"/>
+        <link href="css/main_menu.css" type="text/css" rel="stylesheet"/>
+        <link href="css/post.css" type="text/css" rel="stylesheet"/>
         <script src="js/Post.js"></script>
         <script src="js/PostCollection.js"></script>
         <script src="js/View.js"></script>
@@ -41,22 +43,46 @@
                         <button class="more-button">
                             <img class="more-button-img" src="img/more-button.png"/>
                         </button>
+                        <div class="post-more">
+                            <button id="edit-post-button">Edit</button>
+                            <button id="delete-post-button">Delete</button>
+                            <button id="report-post-button">Report</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </template>
+        
         <template id="template-hashtag">
             <li class="hashtag">
                 <a class="hashtag-content"></a>
             </li>
         </template>
+
+        <template id="template-add-photopost">
+            <div class="add-photo-menu">
+                <img id="new-photo" src="img/photo-plug.png"/>
+                <form name="new-photo-params" id="new-photo-form">
+                    <input form="new-photo-params" type="file" id="new-photo-link"/>
+                    <textarea form="new-photo-params" type="text" id="new-description-input" placeholder="Description"></textarea>
+                    <input type="text" id="new-hashtag-input" placeholder="#tag"/>
+                    <button type="button" id="add-new-hashtag-button">+</button>
+                    <span id="new-hashtags"></span>
+                    <button type="submit" form="new-photo-params" id="new-photo-submit-button">Add</button>
+                </form>
+            </div>
+            <div id="definitely-not-add-photo-menu"></div>
+        </template>
+
         <template id="template-comment">
 
         </template>
+
         <template id="template-zoom">
             <div class="zoomed-photo">
                 <button class="zoomed-cross"><img src="img/cross.png"/></button>
-                <img src="DEFAULT_LINK"/>
+                <img id="zoomed-photo-pic" src="DEFAULT_LINK"/>
+                <div id="definitely-not-zoomed-photo"></div>
             </div>
         </template>
         <template id="template-menu-guest">
@@ -85,11 +111,13 @@
             </div>
         </template>
         <template id="template-forgot-password">
-            <p>Please enter your account username</p>
-            <form name="recovery" target="%RECOVERY_URL%">
-                <input type="text" id="recovery-username-form" placeholder="Username" form="recovery"/> 
-            </form>
-            <button type="submit" id="recovery-submit-button" form="recovery">Submit</button>
+            <div id="forgot-password">
+                <p>Please enter your account username</p>
+                <form name="recovery" target="%RECOVERY_URL%">
+                    <input type="text" id="recovery-username-form" placeholder="Username" form="recovery"/> 
+                </form>
+                <button type="submit" id="recovery-submit-button" form="recovery">Submit</button>
+            </div>
         </template>
 
         <header>
