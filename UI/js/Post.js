@@ -37,12 +37,16 @@ class Post {
         return this._likes;
     }
 
-    get node() {
-        return this._renderedNode;
-    }
-
     get hashtags() {
         return this._hashtags;
+    }
+
+    get comments() {
+        return this._comments;
+    }
+
+    get node() {
+        return this._renderedNode;
     }
 
     render() {
@@ -109,11 +113,11 @@ class Post {
         });
 
         newNode.querySelector("#edit-post-button").addEventListener("click", function() {
-
+            view.showEditPostUI(this.parentNode.parentNode.parentNode.parentNode);
         });
         
         newNode.querySelector("#delete-post-button").addEventListener("click", function() {
-            posts.remove(newNode.getAttribute("id"));
+            posts.remove(newNode);
             controller.refreshFeed();
         });
         

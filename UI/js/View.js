@@ -93,7 +93,6 @@ class View {
         let newPostUI = newPostUITemplate.content.cloneNode(true);
         newPostUI.querySelector("#new-photo-link").addEventListener("change", function(e) {
             let file = e.target.files[0];
-            console.log(file);
             let url = URL.createObjectURL(file);
             this.parentNode.previousElementSibling.src = url;
         });
@@ -118,7 +117,6 @@ class View {
             let hashtagsContainer = this.previousElementSibling;
             let hashtags = [];
             Array.prototype.forEach.call(hashtagsContainer.childNodes, p => {
-                console.log(p);
                 hashtags.push(p.innerHTML);
             });
             let newPost = new Post(description, createdAt, author, photoLink, [], hashtags, []);
@@ -129,6 +127,61 @@ class View {
         let body = document.querySelector("body");
         let main = document.querySelector("main");
         body.insertBefore(newPostUI, main);
+    }
+
+    showEditPostUI(post) {
+        let editPostUITemplate = document.querySelector("#template-add-photopost");
+        let editPostUI = editPostUITemplate.content.cloneNode(true);
+        let postObject = posts.get(post.getAttribute("id"));
+        editPostUI.querySelector("#new-photo").src = post.querySelector(".post-photo").src;
+        editPostUI.querySelector("#new-photo-link").style.visibility = "hidden";
+        editPostUI.querySelector("#new-description-input").value = postObject.description;
+        let hashtagSpan = editPostUI.querySelector("#new-hashtags");
+        let tagParagraph;
+        for (var hashtag in postObject.hashtags) {
+            tagParagraph = document.createElement("p");
+            tagParagraph.innerHTML = postObject.hashtags[hashtag];
+            tagParagraph.addEventListener("click", function() {
+                this.remove();
+            });
+            hashtagSpan.appendChild(tagParagraph);
+        }
+        editPostUI.querySelector("#definitely-not-add-photo-menu").addEventListener("click", function() {
+            view.hideNewPostUI();
+        });
+        editPostUI.querySelector("#add-new-hashtag-button").addEventListener("click", function() {
+            let tag = this.previousElementSibling.value;
+            this.previousElementSibling.value = "";
+            let tagParagraph = document.createElement("p");
+            tagParagraph.innerHTML = tag;
+            tagParagraph.addEventListener("click", function() {
+                this.remove();
+            });
+            this.nextElementSibling.appendChild(tagParagraph);
+        });
+        editPostUI.querySelector("#new-photo-submit-button").innerHTML = "Edit";
+        editPostUI.querySelector("#new-photo-submit-button").addEventListener("click", function() {
+            controller.removePhotoPost(post);
+            let photoLink = this.parentNode.previousElementSibling.src;
+            let author = controller.currentUser;
+            let createdAt = postObject.createdAt;
+            let description = document.querySelector("#new-description-input").value;
+            console.log(document.querySelector("#new-description-input"));
+            console.log(description);
+            let hashtagsContainer = this.previousElementSibling;
+            let hashtags = [];
+            Array.prototype.forEach.call(hashtagsContainer.childNodes, p => {
+                hashtags.push(p.innerHTML);
+            });
+            let newPost = new Post(description, createdAt, author, photoLink, postObject.likes, hashtags, postObject.comments);
+            newPost.validate() && posts.pushFront(newPost);
+            console.log(newPost);
+            controller.refreshFeed();
+            view.hideNewPostUI();
+        });
+        let body = document.querySelector("body");
+        let main = document.querySelector("main");
+        body.insertBefore(editPostUI, main);
     }
 
     _showMoreButtonContent(postNode, isAuthor) {

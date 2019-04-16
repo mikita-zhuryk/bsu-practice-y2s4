@@ -129,8 +129,8 @@ class Controller {
         return this._currentUser !== "Guest";
     }
 
-    removePhotoPost(id) {
-        posts.remove(id);
+    removePhotoPost(post) {
+        posts.remove(post.getAttribute("id"));
     }
 
 }
