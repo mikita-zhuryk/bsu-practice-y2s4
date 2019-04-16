@@ -1,9 +1,8 @@
 Add "Add post" UI
-Add more button interface: report, edit and delete for author
 Add "Edit photopost" functionality
 Add real user credentials check
 Create a form for signing up
 Add comments interface
 Move photoposts to local DB from controller
-Make "Forgot password?" work (add check for users exists)
+Make "Forgot password?" work (add check for user exists)
 Implement post search (date by day and multiple hashtags)
