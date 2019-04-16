@@ -136,10 +136,82 @@ main {
 .add-photo-menu {
     position: fixed;
     top: 60px;
-    margin: auto;
+    left: 10%;
     width: 80%;
-    height: auto;
+    height: 60%;
+    max-height: 100%;
     z-index: 10;
+    background: #777777;
+}
+
+#new-photo-form {
+    position: fixed;
+    left: 10%;
+    width: 80%;
+    height: inherit;
+}
+
+#new-photo {
+    position: absolute;
+    left: 0px;
+    margin: 5%;
+    width: auto;
+    height: 60%;
+}
+
+#new-photo-link {
+    position: absolute;
+    bottom: 10%;
+    left: 0px;
+    margin-left: 10%;
+}
+
+#new-description-input {
+    position: absolute;
+    right: 10%;
+    height: 60%;
+    margin: 5%;
+    width: 45%;
+    padding: 0px;
+    font-size: 14pt;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#new-hashtag-input {
+    position: absolute;
+    right: 30%;
+    top: 75%;
+    margin: 2%;
+    padding: 0px;
+    width: 10%;
+    height: 20px;
+}
+
+#add-new-hashtag-button {
+    position: absolute;
+    right: 27.5%;
+    top: 75%;
+    margin: 2%;
+    width: 2%;
+    height: 20px;
+    padding: 0px;
+}
+
+#new-hashtags {
+    position: absolute;
+    top: 80%;
+    right: 40%;
+    width: 20%;
+    height: auto;
+    text-align: left;
+    vertical-align: baseline;
+}
+
+#new-photo-submit-button {
+    position: absolute;
+    margin: 2%;
+    bottom: 0px;
+    right: 0px;
 }
 
 #definitely-not-add-photo-menu {

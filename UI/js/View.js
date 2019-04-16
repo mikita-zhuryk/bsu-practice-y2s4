@@ -16,7 +16,6 @@ class View {
     togglePostMore(postNode) {
         let postMore = postNode.querySelector(".post-more");
         if (postMore.style.visibility == "hidden") {
-            console.log("visible now");
             postMore.style.visibility = "visible";
             if (controller.currentUser === posts.get(postNode.getAttribute("id")).author) {
                 this._showMoreButtonContent(postNode, true);
@@ -92,18 +91,18 @@ class View {
     showNewPostUI() {
         let newPostUITemplate = document.querySelector("#template-add-photopost");
         let newPostUI = newPostUITemplate.content.cloneNode(true);
-        newPostUI.querySelector("#new-photo-link").addEventListener("change", function() {
-            let bits = [];
-            let file = new File(bits, this.value);
+        newPostUI.querySelector("#new-photo-link").addEventListener("change", function(e) {
+            let file = e.target.files[0];
+            console.log(file);
             let url = URL.createObjectURL(file);
-            this.previousElementSibling.src = url;
+            this.parentNode.previousElementSibling.src = url;
         });
         newPostUI.querySelector("#definitely-not-add-photo-menu").addEventListener("click", function() {
             view.hideNewPostUI();
         });
         newPostUI.querySelector("#add-new-hashtag-button").addEventListener("click", function() {
             let tag = this.previousElementSibling.value;
-            this.previousElementSibling = "";
+            this.previousElementSibling.value = "";
             let tagParagraph = document.createElement("p");
             tagParagraph.innerHTML = tag;
             tagParagraph.addEventListener("click", function() {
@@ -112,13 +111,14 @@ class View {
             this.nextElementSibling.appendChild(tagParagraph);
         });
         newPostUI.querySelector("#new-photo-submit-button").addEventListener("click", function() {
-            let photoLink = this.parentNode.firstElementChild.src;
+            let photoLink = this.parentNode.previousElementSibling.src;
             let author = controller.currentUser;
-            let createdAt = Date.now();
+            let createdAt = new Date(Date.now());
             let description = document.querySelector("#new-description-input").value;
             let hashtagsContainer = this.previousElementSibling;
             let hashtags = [];
             Array.prototype.forEach.call(hashtagsContainer.childNodes, p => {
+                console.log(p);
                 hashtags.push(p.innerHTML);
             });
             let newPost = new Post(description, createdAt, author, photoLink, [], hashtags, []);
@@ -137,7 +137,6 @@ class View {
             postNode.querySelector("#delete-post-button").style.visibility = "visible";
         }
         else {
-            console.log("Reported");
             postNode.querySelector("#report-post-button").style.visibility = "visible";
         }
     }

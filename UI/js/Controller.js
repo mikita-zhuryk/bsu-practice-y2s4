@@ -71,7 +71,6 @@ class Controller {
 
     search(request) {
         let date;
-        console.log(request);
         if (request[0] === "#") {
             this.refreshFeed(10, undefined, request.substring(1));
         }
@@ -165,10 +164,10 @@ let photoPosts = [
     new Date(2019, 3, 2, 14, 39), "VasyaPupkin", "https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13", [], ["лис", "снег"]),
     new Post("9Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой, \
     и заметил фотографа, но есть его не собирается.",
-    new Date(2019, 3, 2, 14, 39), "VasyaPupkin", "https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13", [], ["лис", "снег"]),
+    new Date(2019, 3, 2, 14, 37), "VasyaPupkin", "https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13", [], ["лис", "снег"]),
     new Post("10Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой, \
     и заметил фотографа, но есть его не собирается.",
-    new Date(2019, 3, 2, 14, 39), "VasyaPupkin", "https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13", [], ["лис"]),
+    new Date(2019, 3, 2, 14, 38), "VasyaPupkin", "https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13", [], ["лис"]),
     new Post("11Тут был лис, которого сфотографировали зимой во время прогулки за зайчиком. Если приглядеться, можно увидеть, что лис не то что бы простой, \
     и заметил фотографа, но есть его не собирается.",
     new Date(2019, 3, 2, 14, 39), "VasyaPupkin", "https://im0-tub-by.yandex.net/i?id=245bc235e900a847edae8e53e39f50b3-l&n=13", [], ["лис", "снег"]),

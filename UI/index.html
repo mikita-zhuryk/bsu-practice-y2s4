@@ -59,13 +59,13 @@
         </template>
         <template id="template-add-photopost">
             <div class="add-photo-menu">
-                <form name="new-photo-params">
-                    <img id="new-photo" src="img/photo-plug.png"/>
+                <img id="new-photo" src="img/photo-plug.png"/>
+                <form name="new-photo-params" id="new-photo-form">
                     <input form="new-photo-params" type="file" id="new-photo-link"/>
-                    <input form="new-photo-params" type="text" id="new-description-input" placeholder="Description"/>
+                    <textarea form="new-photo-params" type="text" id="new-description-input" placeholder="Description"></textarea>
                     <input type="text" id="new-hashtag-input" placeholder="#tag"/>
-                    <button id="add-new-hashtag-button">+</button>
-                    <div id="new-hashtags"></div>
+                    <button type="button" id="add-new-hashtag-button">+</button>
+                    <span id="new-hashtags"></span>
                     <button type="submit" form="new-photo-params" id="new-photo-submit-button">Add</button>
                 </form>
             </div>

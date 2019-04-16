@@ -7,15 +7,19 @@ class PostCollection {
         this._totalPosts = 0;
         posts.forEach(post => {
             if (post.validate()) {
-                post._id = Math.random().toString(36).replace(/[^a-z]+/g, "");
-                while (!this._photoPosts.findIndex((v) => {
-                    return v.id == post._id;
-                })) {
-                    post._id = Math.random().toString(36).replace(/[^a-z]+/g, "");
-                }
+                this._dispatchID(post);
                 this._photoPosts.push(post);
             }
         });
+    }
+
+    _dispatchID(post) {
+        post._id = Math.random().toString(36).replace(/[^a-z]+/g, "");
+        while (!this._photoPosts.findIndex((v) => {
+            return v.id == post._id;
+        })) {
+            post._id = Math.random().toString(36).replace(/[^a-z]+/g, "");
+        }
     }
 
     get length() {
@@ -60,14 +64,16 @@ class PostCollection {
             ++i;
         }
         result.sort((a, b) => {
-            return a.createdAt.getTime() - b.createdAt.getTime();
+            return b.createdAt.getTime() - a.createdAt.getTime();
         });
         return result;
     }
 
     pushFront(post) {
         if (post && post.validate()) {
-            this._photoPosts = this._photoPosts.reverse().push(post).reverse();
+            this._dispatchID(post);
+            this._photoPosts.reverse().push(post);
+            this._photoPosts.reverse();
             return true;
         }
         console.log("Added post %s to the front of photoPosts", post);
@@ -76,6 +82,7 @@ class PostCollection {
 
     pushBack(post) {
         if (post && post.validate()) {
+            this._dispatchID(post);
             this._photoPosts.push(post);
             return true;
         }
