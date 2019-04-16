@@ -12,7 +12,7 @@ class View {
     updateFeed(length = 10, filter) {
         let scopeText = document.querySelector("#feed-scope").innerHTML;
         let scope = scopeText.substring(0, scopeText.indexOf("'")) || "";
-        this._filterConfig = (filter) ? filter : new Post();
+        if (filter) this._filterConfig = filter;
         if ((scope !== "") && !this._filterConfig.author) {
             this._filterConfig.author = scope;
         }
@@ -73,11 +73,15 @@ class View {
 
     search(request) {
         let date;
+        console.log(request);
         if (request[0] === "#") {
             this._refreshFeed(10, undefined, request.substring(1));
         }
         else if ((date = Date.parse(request))) {
-            this._refreshFeed(10, undefined, );
+            this._refreshFeed(10, undefined);
+        }
+        else {
+            this._refreshFeed(10, request);
         }
     }
 
@@ -187,10 +191,8 @@ class View {
             let template = document.querySelector("#template-forgot-password");
             let forgotForm = template.content.cloneNode(true);
             let menuNode = document.querySelector("#guest-menu");
-            console.log(menuNode.children);
-            Array.prototype.forEach.call(menuNode.children, node => {
-                node.parentNode.removeChild(node);
-            });
+            menuNode.querySelector("#login-form").remove();
+            menuNode.querySelector("#menu-options").remove();
             forgotForm.querySelector("#recovery-submit-button").addEventListener("click", function() {
                 //do this only if user with entered username exists
                 view.toggleMenu();
@@ -295,7 +297,9 @@ class View {
         node && node.querySelector(".zoomed-cross").addEventListener("click", function () {
             view.unzoomPhoto();
         });
-        console.log(node.querySelector("img"));
+        node && node.querySelector("#definitely-not-zoomed-photo").addEventListener("click", function() {
+            view.unzoomPhoto();
+        });
         document.querySelector("main").appendChild(node);
         document.querySelector("body").style.overflow = "hidden";
         document.querySelector("header").style.visibility = "hidden";

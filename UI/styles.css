@@ -129,6 +129,11 @@ header {
     left: 15%;
 }
 
+#forgot-password {
+    height: 100%;
+    width: 100%;
+}
+
 #sign-up {
     width: 30%;
 }
@@ -279,15 +284,30 @@ main {
     align-self: center;
 }
 
+#definitely-not-zoomed-photo {
+    position: fixed;
+    background: rgba(32, 32, 32, 0.3);
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+}
+
 .zoomed-photo {
     position: fixed;
     top: 0px;
     left: 0px;
-    max-width: 100%;
-    height: auto;
-    background-color: #AAAAAA;
+    width: 100%;
+    height: 100%;
     z-index: 10;
-    overflow: auto;
+    line-height: 200px;
+}
+
+#zoomed-photo-pic {
+    position: absolute;
+    vertical-align: middle;
+    left: 10%;
+    width: 80%;
+    height: auto;
 }
 
 .zoomed-photo button {

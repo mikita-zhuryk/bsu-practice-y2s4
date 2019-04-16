@@ -45,19 +45,23 @@ class PostCollection {
 
     getPage(skip = 0, length = 10, filterConfig) {
         let count = 0;
-        let i = (skip >= 0) ? skip : 0;
+        let i = 0;
         let result = [];
         while ((i < this._photoPosts.length) && (count < length)) {
             if (this._photoPosts[i] && this._photoPosts[i].filter(filterConfig)) {
-                result.push(this._photoPosts[i]);
-                ++count;
+                if (skip > 0) {
+                    skip--;
+                }
+                else {
+                    result.push(this._photoPosts[i]);
+                    ++count;
+                }
             }
             ++i;
         }
         result.sort((a, b) => {
             return a.createdAt.getTime() - b.createdAt.getTime();
         });
-        console.log("Filtered %d posts starting from %d post", length, skip);
         return result;
     }
 
@@ -86,7 +90,6 @@ class PostCollection {
     }
 
     get(id) {
-        console.log("Found post with id " + id);
         return this._photoPosts[this._findIndexByID(id)];
     }
     
