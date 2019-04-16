@@ -56,7 +56,8 @@
         <template id="template-zoom">
             <div class="zoomed-photo">
                 <button class="zoomed-cross"><img src="img/cross.png"/></button>
-                <img src="DEFAULT_LINK"/>
+                <img id="zoomed-photo-pic" src="DEFAULT_LINK"/>
+                <div id="definitely-not-zoomed-photo"></div>
             </div>
         </template>
         <template id="template-menu-guest">
@@ -85,11 +86,13 @@
             </div>
         </template>
         <template id="template-forgot-password">
-            <p>Please enter your account username</p>
-            <form name="recovery" target="%RECOVERY_URL%">
-                <input type="text" id="recovery-username-form" placeholder="Username" form="recovery"/> 
-            </form>
-            <button type="submit" id="recovery-submit-button" form="recovery">Submit</button>
+            <div id="forgot-password">
+                <p>Please enter your account username</p>
+                <form name="recovery" target="%RECOVERY_URL%">
+                    <input type="text" id="recovery-username-form" placeholder="Username" form="recovery"/> 
+                </form>
+                <button type="submit" id="recovery-submit-button" form="recovery">Submit</button>
+            </div>
         </template>
 
         <header>
