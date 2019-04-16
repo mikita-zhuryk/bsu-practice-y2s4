@@ -161,7 +161,45 @@ class View {
     }
 
     showNewPostUI() {
-
+        let newPostUITemplate = document.querySelector("#template-add-photopost");
+        let newPostUI = newPostUITemplate.content.cloneNode(true);
+        newPostUI.querySelector("#new-photo-link").addEventListener("change", function() {
+            let bits = [];
+            let file = new File(bits, this.value);
+            let url = URL.createObjectURL(file);
+            this.previousElementSibling.src = url;
+        });
+        newPostUI.querySelector("#definitely-not-add-photo-menu").addEventListener("click", function() {
+            view.hideNewPostUI();
+        });
+        newPostUI.querySelector("#add-new-hashtag-button").addEventListener("click", function() {
+            let tag = this.previousElementSibling.value;
+            this.previousElementSibling = "";
+            let tagParagraph = document.createElement("p");
+            tagParagraph.innerHTML = tag;
+            tagParagraph.addEventListener("click", function() {
+                this.remove();
+            });
+            this.nextElementSibling.appendChild(tagParagraph);
+        });
+        newPostUI.querySelector("#new-photo-submit-button").addEventListener("click", function() {
+            let photoLink = this.parentNode.firstElementChild.src;
+            let author = controller.currentUser;
+            let createdAt = Date.now();
+            let description = document.querySelector("#new-description-input").value;
+            let hashtagsContainer = this.previousElementSibling;
+            let hashtags = [];
+            Array.prototype.forEach.call(hashtagsContainer.childNodes, p => {
+                hashtags.push(p.innerHTML);
+            });
+            let newPost = new Post(description, createdAt, author, photoLink, [], hashtags, []);
+            newPost.validate() && posts.pushFront(newPost);
+            controller.refreshFeed();
+            view.hideNewPostUI();
+        });
+        let body = document.querySelector("body");
+        let main = document.querySelector("main");
+        body.insertBefore(newPostUI, main);
     }
 
     _showMoreButtonContent(isAuthor) {
