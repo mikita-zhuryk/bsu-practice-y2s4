@@ -239,6 +239,23 @@ main {
     border: 0px;
 }
 
+.add-photo-menu {
+    position: fixed;
+    top: 60px;
+    margin: auto;
+    width: 80%;
+    height: auto;
+    z-index: 10;
+}
+
+#definitely-not-add-photo-menu {
+    position: fixed;
+    background: rgba(32, 32, 32, 0.3);
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+}
+
 .photopost {
     height: 72%;
     width: 100%;

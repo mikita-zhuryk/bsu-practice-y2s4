@@ -87,7 +87,7 @@ class Post {
     _addPostEventListeners(newNode) {
         newNode.querySelector(".user-button").addEventListener("click", function () {
             document.querySelector("#feed-scope").innerHTML = this.lastElementChild.innerText +"'s profile";
-            view._refreshFeed(10, this.lastElementChild.innerText);
+            controller.refreshFeed(10, this.lastElementChild.innerText);
         });
     
         newNode.querySelector(".post-photo").addEventListener("click", function () {
@@ -96,12 +96,12 @@ class Post {
     
         newNode.querySelector(".post-date").addEventListener("click", function () {
             document.querySelector("#post-search").value = this.innerHTML;
-            view.search(document.querySelector("#post-search").value);
+            controller.search(document.querySelector("#post-search").value);
         });
     
         newNode.querySelector(".like-button").addEventListener("click", function () {
             view.showMenuIfNotLogged();
-            view.updateLikeCounter(this);
+            controller.updateLikeCounter(this);
         });
     
         newNode.querySelector(".more-button").addEventListener("click", function () {
@@ -110,7 +110,7 @@ class Post {
     
         newNode.querySelector(".hashtag-content").addEventListener("click", function () {
             document.querySelector("#post-search").value = this.innerHTML;
-            view.search(document.querySelector("#post-search").value);
+            controller.search(document.querySelector("#post-search").value);
         });
     }
 

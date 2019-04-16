@@ -50,6 +50,20 @@
                 <a class="hashtag-content"></a>
             </li>
         </template>
+        <template id="template-add-photopost">
+            <div class="add-photo-menu">
+                <form name="new-photo-params">
+                    <img id="new-photo" src="img/photo-plug.png"/>
+                    <input form="new-photo-params" type="file" id="new-photo-link"/>
+                    <input form="new-photo-params" type="text" id="new-description-input" placeholder="Description"/>
+                    <input type="text" id="new-hashtag-input" placeholder="#tag"/>
+                    <button id="add-new-hashtag-button">+</button>
+                    <div id="new-hashtags"></div>
+                    <button type="submit" form="new-photo-params" id="new-photo-submit-button">Add</button>
+                </form>
+            </div>
+            <div id="definitely-not-add-photo-menu"></div>
+        </template>
         <template id="template-comment">
 
         </template>
