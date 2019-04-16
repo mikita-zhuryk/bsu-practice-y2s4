@@ -1,0 +1,7 @@
+Add drag-and-drop for add post
+Add real user credentials check
+Create a form for signing up
+Add comments interface
+Move photoposts to local DB from controller
+Make "Forgot password?" work (add check for user exists)
+Implement post search (date by day and multiple hashtags)
