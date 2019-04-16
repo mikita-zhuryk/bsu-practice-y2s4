@@ -13,13 +13,21 @@ class View {
         }
     }
 
-    togglePostMore(post) {
-        //show report
-        if (controller.currentUser === posts.get(post.getAttribute("id")).author) {
-            this._showMoreButtonContent(true);
+    togglePostMore(postNode) {
+        let postMore = postNode.querySelector(".post-more");
+        if (postMore.style.visibility == "hidden") {
+            console.log("visible now");
+            postMore.style.visibility = "visible";
+            if (controller.currentUser === posts.get(postNode.getAttribute("id")).author) {
+                this._showMoreButtonContent(postNode, true);
+            }
+            else {
+                this._showMoreButtonContent(postNode, false);
+            }
         }
         else {
-            this._MoreButtonContent(false);
+            postMore.style.visibility = "hidden";
+            this._hideMoreButtonContent(postNode);
         }
     }
 
@@ -123,12 +131,24 @@ class View {
         body.insertBefore(newPostUI, main);
     }
 
-    _showMoreButtonContent(isAuthor) {
+    _showMoreButtonContent(postNode, isAuthor) {
+        if (isAuthor) {
+            postNode.querySelector("#edit-post-button").style.visibility = "visible";
+            postNode.querySelector("#delete-post-button").style.visibility = "visible";
+        }
+        else {
+            console.log("Reported");
+            postNode.querySelector("#report-post-button").style.visibility = "visible";
+        }
+    }
 
+    _hideMoreButtonContent(postNode) {
+        postNode.querySelector("#edit-post-button").style.visibility = "hidden";
+        postNode.querySelector("#delete-post-button").style.visibility = "hidden";
+        postNode.querySelector("#report-post-button").style.visibility = "hidden";
     }
 
     _addMenuGrayAreaEventListener() {
-        let menu = document.querySelector(".menu");
         document.querySelector(".definitely-not-menu").addEventListener("click", function () {
             view.toggleMenu();
         });

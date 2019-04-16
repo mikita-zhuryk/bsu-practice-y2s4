@@ -27,7 +27,8 @@ class Controller {
 
     refreshFeed(length = 10, author, hashtag) {
         Array.prototype.forEach.call(document.querySelectorAll(".photopost"), node => {
-            posts.get(node.getAttribute("id")).removeRenderedNode();
+            let post = posts.get(node.getAttribute("id"));
+            post && post.removeRenderedNode();
             node.parentNode.removeChild(node);
         });
         this.updateFeed(length, new Post(

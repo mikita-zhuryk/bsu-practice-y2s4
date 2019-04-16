@@ -78,10 +78,10 @@ class Post {
             newNode.querySelector("#like-button-img").setAttribute("src", "like-button-filled.png");
         }
 
-        this._addPostEventListeners(newNode);
         document.getElementById("feed-main").appendChild(newNode);
         let nodes = document.querySelectorAll(".photopost");
         this._renderedNode = nodes[nodes.length - 1];
+        this._addPostEventListeners(this._renderedNode);
     }
 
     _addPostEventListeners(newNode) {
@@ -106,6 +106,19 @@ class Post {
     
         newNode.querySelector(".more-button").addEventListener("click", function () {
             view.togglePostMore(this.parentNode.parentNode.parentNode);
+        });
+
+        newNode.querySelector("#edit-post-button").addEventListener("click", function() {
+
+        });
+        
+        newNode.querySelector("#delete-post-button").addEventListener("click", function() {
+            posts.remove(newNode.getAttribute("id"));
+            controller.refreshFeed();
+        });
+        
+        newNode.querySelector("#report-post-button").addEventListener("click", function() {
+
         });
     
         newNode.querySelector(".hashtag-content").addEventListener("click", function () {
