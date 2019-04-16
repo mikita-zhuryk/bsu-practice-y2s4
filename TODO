@@ -1,6 +1,5 @@
 Add "Add post" UI
 Add more button interface: report, edit and delete for author
-Fix excessively large photo view on click
 Add "Edit photopost" functionality
 Add real user credentials check
 Create a form for signing up
