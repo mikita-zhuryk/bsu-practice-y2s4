@@ -91,6 +91,23 @@ class View {
     showNewPostUI() {
         let newPostUITemplate = document.querySelector("#template-add-photopost");
         let newPostUI = newPostUITemplate.content.cloneNode(true);
+        newPostUI.querySelector("#new-photo").addEventListener("dragenter", function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+        }, false);
+        newPostUI.querySelector("#new-photo").addEventListener("dragover", function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+        }, false);
+        newPostUI.querySelector("#new-photo").addEventListener("drop", function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            let dt = e.dataTransfer;
+            let file = dt.files[0];
+            let url = URL.createObjectURL(file);
+            this.src = url;
+            this.nextElementSibling.firstElementChild.value = url;
+        }, false);
         newPostUI.querySelector("#new-photo-link").addEventListener("change", function(e) {
             let file = e.target.files[0];
             let url = URL.createObjectURL(file);
