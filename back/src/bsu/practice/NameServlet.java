@@ -23,11 +23,13 @@ public class NameServlet extends HttpServlet {
             tuple = param.split("=");
             paramName = tuple[0];
             paramValue = tuple[1];
-            responseHTML.append("<p>");
-            responseHTML.append(paramName);
-            responseHTML.append(" = ");
-            responseHTML.append(paramValue);
-            responseHTML.append("</p>");
+            if (paramValue.length() <= 100) {
+                responseHTML.append("<p>");
+                responseHTML.append(paramName);
+                responseHTML.append(" = ");
+                responseHTML.append(paramValue);
+                responseHTML.append("</p>");
+            }
         }
         responseHTML.append("</body></html>");
         resp.getOutputStream().print(responseHTML.toString());
