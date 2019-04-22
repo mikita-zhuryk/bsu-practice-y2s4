@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class NameServlet extends HttpServlet {
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         StringBuilder responseHTML = new StringBuilder("<html><body>");
         String query = req.getQueryString();
         String[] queryParams = query.split("&");
