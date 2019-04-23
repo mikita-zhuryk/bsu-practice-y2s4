@@ -1,4 +1,4 @@
-package bsu.practice;
+package bsu.practice.service.servlet;
 
 import com.google.gson.Gson;
 

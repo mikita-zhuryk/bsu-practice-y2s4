@@ -1,4 +1,4 @@
-package bsu.practice;
+package bsu.practice.service.servlet;
 
 import java.io.IOException;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class NameServlet extends HttpServlet {
             responseHTML.append(" = ");
             for (String s : e.getValue()) {
                 responseHTML.append(s);
-                responseHTML.append("; ");
+                responseHTML.append(" ");
             }
             responseHTML.append("</p>");
         }
