@@ -1,7 +1,8 @@
 package bsu.practice;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
-import java.util.Enumeration;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,21 +14,7 @@ public class CheckServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Enumeration<String> names = req.getParameterNames();
-        String nextName;
-        StringBuilder json = new StringBuilder("{");
-        while (names.hasMoreElements()) {
-            nextName = names.nextElement();
-            if (nextName != null) {
-                json.append("\"");
-                json.append(nextName);
-                json.append("\"");
-                json.append(": ");
-                json.append(req.getParameter(nextName));
-                json.append(",\n");
-            }
-        }
-        json.append("}");
-        resp.getOutputStream().print(json.toString());
+        Gson gson = new Gson();
+        resp.getOutputStream().println(gson.toJson(req.getParameterMap()));
     }
 }
