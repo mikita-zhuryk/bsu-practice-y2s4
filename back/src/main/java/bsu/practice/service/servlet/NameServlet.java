@@ -1,6 +1,7 @@
-package bsu.practice;
+package bsu.practice.service.servlet;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,22 +14,16 @@ public class NameServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         StringBuilder responseHTML = new StringBuilder("<html><body>");
-        String query = req.getQueryString();
-        String[] queryParams = query.split("&");
-        String paramName;
-        String paramValue;
-        String[] tuple;
-        for (String param: queryParams) {
-            tuple = param.split("=");
-            paramName = tuple[0];
-            paramValue = tuple[1];
-            if (paramValue.length() <= 100) {
-                responseHTML.append("<p>");
-                responseHTML.append(paramName);
-                responseHTML.append(" = ");
-                responseHTML.append(paramValue);
-                responseHTML.append("</p>");
+        Map<String, String[]> query = req.getParameterMap();
+        for (Map.Entry<String, String[]> e : query.entrySet()) {
+            responseHTML.append("<p>");
+            responseHTML.append(e.getKey());
+            responseHTML.append(" = ");
+            for (String s : e.getValue()) {
+                responseHTML.append(s);
+                responseHTML.append(" ");
             }
+            responseHTML.append("</p>");
         }
         responseHTML.append("</body></html>");
         resp.getOutputStream().print(responseHTML.toString());
