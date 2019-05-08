@@ -14,7 +14,7 @@ public class StatusServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher rd = req.getRequestDispatcher("WEB-INF/status.jsp");
+        RequestDispatcher rd = req.getRequestDispatcher("status.jsp");
         if (rd != null) {
             rd.forward(req, resp);
         }

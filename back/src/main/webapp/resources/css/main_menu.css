@@ -1,0 +1,105 @@
+#logged-user-avatar {
+    position: absolute;
+    right: calc(2% + 60px);
+    height: 40px;
+    width: 40px;
+    margin: 10px;
+    border: 0px;
+    padding: 0px;
+    border-radius: 100%;
+    visibility: hidden;
+}
+
+#logged-user-avatar img {
+    height: 100%;
+    width: 100%;
+    border-radius: 100%;
+}
+
+#main-menu-button {
+    position: absolute;
+    right: 2%;
+    height: 30px;
+    width: 30px;
+    margin: 15px;
+    padding: 0px;
+    border: 0px;
+}
+
+.definitely-not-menu {
+    position: fixed;
+    background: rgba(32, 32, 32, 0.3);
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+}
+
+.menu {
+    position: fixed;
+    background: #FFFFFF;
+    border: 2px solid #000000;
+    top: 60px;
+    right: 0px;
+    width: 20%;
+    max-width: 100%;
+    height: 180px;
+    max-height: 100%;
+    z-index: 10;
+}
+
+#login-form {
+    height: 70px;
+    max-height: 180px;
+}
+
+#username-input {
+    width: 70%;
+    left: 15%;
+    margin-top: 5px;
+}
+
+#password-input {
+    width: 70%;
+    left: 15%;
+    margin-top: 5px;
+}
+
+#forgot-pass {
+    position: absolute;
+    font-size: 10pt;
+    width: 40%;
+    left: 15%;
+    margin-top: 5px;
+}
+
+#login-button {
+    position: absolute;
+    width: 20%;
+    right: 15%;
+    margin-top: 5px;
+}
+
+#menu-options {
+    margin-top: 5px;
+    left: 15%;
+}
+
+#forgot-password {
+    height: 100%;
+    width: 100%;
+}
+
+#sign-up {
+    width: 30%;
+}
+
+#user-menu button {
+    height: 25%;
+    width: 100%;
+}
+
+#menu-avatar {
+    width: 30px;
+    height: auto;
+    float: left;
+}
