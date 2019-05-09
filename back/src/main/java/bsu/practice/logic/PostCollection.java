@@ -3,10 +3,12 @@ package bsu.practice.logic;
 import java.util.*;
 import java.util.stream.Collectors;
 
+//TODO: Singleton? How do I get the same instance across all servlets?
 public class PostCollection {
 
     private Map<String, Post> posts;
 
+    //TODO: default constructor probably should get data from DB
     public PostCollection() {
         this(new LinkedList<>());
     }
@@ -21,6 +23,7 @@ public class PostCollection {
         });
     }
 
+    //TODO: Some better hash
     private String dispatchID(Post post) {
         Random random = new Random();
         Long id;
@@ -82,8 +85,8 @@ public class PostCollection {
         }
     }
 
-    public void remove(String id) {
-        posts.remove(id);
+    public boolean remove(String id) {
+        return posts.remove(id) != null;
     }
 
     public void clear() {
@@ -94,6 +97,7 @@ public class PostCollection {
         return new LinkedList<>(posts.values());
     }
 
+    //TODO: Should this method make DB request?
     public Post getPost(String id) {
         return posts.get(id);
     }

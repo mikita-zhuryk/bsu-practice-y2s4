@@ -9,6 +9,7 @@ public class FilterConfig {
     String descriptionPart;
     String[] hashtags;
 
+    //TODO: null or default constructors?
     FilterConfig() {
         this("", null, "", null);
     }

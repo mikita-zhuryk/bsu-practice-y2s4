@@ -14,6 +14,7 @@ public class Post {
     private String[] hashtags;
     private Comment[] comments;
 
+    //TODO: null or default constructors?
     Post() {
         this("", null, "", "", null, null, null);
     }
