@@ -1,0 +1,1 @@
+SELECT * from photo_post WHERE USER_ID = 'uinCa3m' AND CREATION_DATE = '19.05.01';

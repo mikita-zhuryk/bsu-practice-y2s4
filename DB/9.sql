@@ -1,0 +1,3 @@
+SELECT *
+FROM user INNER JOIN photo_post on user.USER_ID = photo_post.USER_ID
+WHERE LENGTH(DESCRIPTION) > 200;

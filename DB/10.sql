@@ -1,0 +1,3 @@
+SELECT * from photo_post
+ORDER BY CREATION_DATE DESC
+LIMIT 5;

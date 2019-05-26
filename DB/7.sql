@@ -1,0 +1,1 @@
+SELECT DISTINCT NAME from user;
